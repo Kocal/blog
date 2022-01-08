@@ -10,7 +10,7 @@ summary: What happens with your Doctrine collections associations when using "Qu
 
 ::: tip 
 
-This blog post is associated with some code that you can find [here](https://github.com/Kocal/blog/tree/main/posts-assets/2022-01-07-doctrine-setmaxresults-and-collections-associations-are-on-a-bot/demo-project).
+This blog post is associated with some code that you can find [here](https://github.com/Kocal/blog/tree/main/posts-assets/2022-01-07-doctrine-setmaxresults-and-collections-associations-are-on-a-boat/demo-project).
 
 :::
 
