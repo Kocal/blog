@@ -1,11 +1,11 @@
 ---
-title: "Doctrine, \"QueryBuilder::setMaxResults()\" and collections associations are on a boat"
+title: "Doctrine, QueryBuilder::setMaxResults() and collections associations are on a boat"
 tags:
 - php
 - doctrine
 - database
 date: 2022-01-07
-summary: What happens with your Doctrine collections associations when using "QueryBuilder::setMaxResults()", and how do we fix it?
+summary: What happens with your Doctrine collections associations when using QueryBuilder::setMaxResults(), and how do we fix it?
 ---
 
 ::: tip 
