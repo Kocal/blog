@@ -8,8 +8,8 @@ date: 2022-01-07
 summary: What happens with your Doctrine collections associations when using "QueryBuilder::setMaxResults()", and how do we fix it?
 ---
 
-Today, we gonna talk about an issue with <abbr title="DataBase Managment System">DBMS</abbr>, [Doctrine](https://www.doctrine-project.org/), `QueryBuilder::setMaxResults()` and relationships.
-I've faced this issue while trying to optimize my code and reduce the number of SQL requests after identifying a [N+1 query issue](https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping).
+Today, we gonna talk about an issue with <abbr title="DataBase Managment System">DBMS</abbr>, [Doctrine](https://www.doctrine-project.org/), `QueryBuilder::setMaxResults()` and collections associations.
+I've faced this issue while trying to optimize my code to reduce the number of SQL requests after identifying a [N+1 query issue](https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping).
 
 ## Some context...
 
@@ -276,7 +276,7 @@ Which returns 4 rows (because our 1st `Pet` has 4 `Picture`):
 
 ### Keep the control 
 
-If you don't want to use the Doctrine's `Paginator` to keep the control - or if you don't find logical to use a _paginator_ to fetch only 1 element -, then you can use 2 separate SQL queries: 
+If you don't want to use the Doctrine's `Paginator` to keep the control (or if you don't find logical to use a _paginator_ to fetch only 1 entity), then you can use 2 separate SQL queries: 
 
 ```php {7,9-12,14,17}
 $qb = $entityManager->createQueryBuilder()
