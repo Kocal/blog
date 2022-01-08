@@ -1,0 +1,20 @@
+{
+  "require": {
+    "php": ">=7.4",
+    "doctrine/orm": "^2.10",
+    "symfony/cache": "^6.0",
+    "webmozart/assert": "^1.10"
+  },
+  "scripts": {
+    "setup-db": [
+      "vendor/bin/doctrine orm:schema-tool:drop --force",
+      "vendor/bin/doctrine orm:schema-tool:create",
+      "@php doctrine/seed.php"
+    ]
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  }
+}
