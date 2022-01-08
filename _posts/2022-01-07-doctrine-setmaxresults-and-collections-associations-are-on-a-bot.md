@@ -8,6 +8,12 @@ date: 2022-01-07
 summary: What happens with your Doctrine collections associations when using "QueryBuilder::setMaxResults()", and how do we fix it?
 ---
 
+::: tip 
+
+This blog post is associated with some code that you can find [here](https://github.com/Kocal/blog/tree/main/posts-assets/2022-01-07-doctrine-setmaxresults-and-collections-associations-are-on-a-bot/demo-project).
+
+:::
+
 Today, we gonna talk about an issue with <abbr title="DataBase Managment System">DBMS</abbr>, [Doctrine](https://www.doctrine-project.org/), `QueryBuilder::setMaxResults()` and collections associations.
 I've faced this issue while trying to optimize my code to reduce the number of SQL requests after identifying a [N+1 query issue](https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping).
 
