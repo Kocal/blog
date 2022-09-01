@@ -38,7 +38,7 @@ En revanche, plusieurs années ont passé et l'équipe et moi-même avons rencon
 1. Pour les utilisateurs d'Ubuntu 18.04 ou plus, le plugin [Vagrant Landrush](https://github.com/vagrant-landrush/landrush) (qui permet de mapper un faux NDD vers l'IP d'une
    VM) [ne fonctionne pas](https://github.com/vagrant-landrush/landrush/issues/342). On doit manuellement ajouter une entrée dans notre `/etc/hosts`.
 2. Il y a des versions de VirtualBox qui ne fonctionnent pas. Dès que je trouvais une version qui fonctionnait parfaitement (ex : `6.1.16` pour Ubuntu 20.10), je désactivais les mises à
-   jour via `echo "virtualbox-6.1 hold" | sudo dpkg --set-selections`, dans la crainte qu'une mise à jour ne fasse plus fonctionner les VM.S
+   jour via `echo "virtualbox-6.1 hold" | sudo dpkg --set-selections`, dans la crainte qu'une mise à jour ne fasse plus fonctionner les VM.
 3. Des soucis d'optimisation d'espace disque. Avec une VM par projet, l'espace disque utilisé peut monter assez vite (~160 Go utilisé après 3 ans sans nettoyage).
 4. Des problèmes de consommation CPU / RAM, faire tourner une ou plusieurs VM, avec PhpStorm, avec Google Chrome, etc... le tout en même temps, ce n'est pas donné à tout le monde. Il faut avoir une
    très bonne machine capable d'encaisser la charge.
