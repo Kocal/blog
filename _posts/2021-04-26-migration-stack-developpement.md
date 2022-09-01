@@ -49,7 +49,7 @@ En revanche, plusieurs années ont passé et l'équipe et moi-même avons rencon
 
 7. Le _watching_ de fichiers (le fait d'observer les modifications sur des fichiers en temps réel) qui ne fonctionne pas correctement à cause de l'utilisation de NFS :
     - pour faire fonctionner le dev-server de webpack, on a dû configurer le [_polling_](https://webpack.js.org/configuration/watch/#watchoptionspoll)
-    - pour faire fonctionner lre watch de TailwindCSS, on a également dû configurer le polling via `CHOKIDAR_USEPOLLING=1` ([discussion GitHub](https://github.com/tailwindlabs/tailwindcss/discussions/4024))
+    - pour faire fonctionner le watch de TailwindCSS, on a également dû configurer le polling via `CHOKIDAR_USEPOLLING=1` ([discussion GitHub](https://github.com/tailwindlabs/tailwindcss/discussions/4024))
 8. Pour nos git hooks ou tests Cypress (tout ce qui peut être lancé dans et en dehors de la VM en fait), il fallait passer par un petit script `vagrant-wrapper.sh` pour s'assurer que nos commandes
    soient bien exécutées dans la VM :
 
