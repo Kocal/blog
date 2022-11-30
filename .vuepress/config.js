@@ -34,7 +34,8 @@ module.exports = {
     nav: [
       { text: 'Tags', link: '/tag/' },
       { text: 'GitHub', link: 'https://github.com/Kocal' },
-      { text: 'Twitter', link: 'https://twitter.com/HugoAlliaume' },
+      { text: 'Twitter', link: 'https://twitter.com/HugoAlliaume', rel: 'me' },
+      { text: 'Mastodon', link: 'https://mastodon.social/@Kocal', rel: 'me' },
     ],
     smoothScroll: true,
     sidebar: 'auto',
