@@ -2,22 +2,11 @@
   "name": "@kocal/blog",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "dev": "vuepress dev",
-    "build": "vuepress build"
-  },
+  "scripts": {},
   "dependencies": {
     "@vssue/api-github-v3": "^1.4.7",
-    "@vssue/vuepress-plugin-vssue": "^1.4.8",
-    "@vuepress/plugin-blog": "^1.9.4",
-    "@vuepress/plugin-medium-zoom": "^1.8.2",
-    "@vuepress/plugin-nprogress": "^1.8.2",
-    "@vuepress/plugin-pwa": "^1.8.2",
-    "@vuepress/plugin-search": "^1.8.2",
     "dayjs": "^1.10.4",
     "remove-markdown": "^0.3.0",
-    "vue-feather-icons": "^5.1.0",
-    "vuepress": "^1.8.2",
-    "vuepress-plugin-seo": "^0.1.2"
+    "vue-feather-icons": "^5.1.0"
   }
 }
