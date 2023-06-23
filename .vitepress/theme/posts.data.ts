@@ -7,7 +7,7 @@ interface Post {
         time: number
         string: string
     }
-    excerpt: string | undefined
+    summary: string
 }
 
 declare const data: Post[]
@@ -20,7 +20,7 @@ export default createContentLoader('posts/*.md', {
             .map(({ url, frontmatter, excerpt }) => ({
                 title: frontmatter.title,
                 url,
-                excerpt,
+                summary: frontmatter.summary,
                 date: formatDate(frontmatter.date)
             }))
             .sort((a, b) => b.date.time - a.date.time)

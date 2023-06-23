@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -23,5 +24,8 @@ export default defineConfig({
 
       gtag('config', 'G-Z8KN175TJZ');`,
     ],
-  ]
+  ],
+  vite: {
+    plugins: [vueJsx()],
+  }
 })
