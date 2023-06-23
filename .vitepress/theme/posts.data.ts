@@ -21,18 +21,18 @@ export default createContentLoader('posts/*.md', {
                 title: frontmatter.title,
                 url,
                 summary: frontmatter.summary,
-                date: formatDate(frontmatter.date)
+                date: formatDate(frontmatter.date, frontmatter.locale)
             }))
             .sort((a, b) => b.date.time - a.date.time)
     }
 })
 
-function formatDate(raw: string): Post['date'] {
+function formatDate(raw: string, locale: string | undefined): Post['date'] {
     const date = new Date(raw)
     date.setUTCHours(12)
     return {
         time: +date,
-        string: date.toLocaleDateString('en-US', {
+        string: date.toLocaleDateString(locale || 'en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
