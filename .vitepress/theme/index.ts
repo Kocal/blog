@@ -1,5 +1,5 @@
 // https://vitepress.dev/guide/custom-theme
-import Layout from './Layout'
+import Layout from './layouts/Layout'
 import './style.css'
 
 export default {
