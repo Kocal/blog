@@ -1,5 +1,1 @@
-
-html {
-  font-family: Arial, Helvetica;
-}
-
+@layer reset, base, tokens, recipes, utilities;
