@@ -13,6 +13,7 @@
     "@pandacss/dev": "^0.4.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "@vssue/api-github-v3": "^1.4.7",
+    "@vueuse/core": "^10.2.0",
     "dayjs": "^1.10.4",
     "remove-markdown": "^0.3.0",
     "vitepress": "^1.0.0-beta.3",

@@ -6,7 +6,24 @@ export default defineComponent({
         console.log(posts);
         return () => (
             <>
-                Homepage
+                {posts.map((post) => (
+                    <article>
+                        <header>
+                            <a href={post.url}>
+                                {post.title}
+                            </a>
+                        </header>
+                        <section>
+                            <p>{post.summary}</p>
+                        </section>
+                        <footer>
+                            {post.date}
+                            {post.tags.map((tag) => (
+                                <a href={`/tag/${tag}`}>{tag}</a>
+                            ))}
+                        </footer>
+                    </article>
+                ))}
             </>
         )
     }
