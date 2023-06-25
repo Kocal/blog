@@ -1,18 +1,14 @@
-import {defineComponent} from "vue";
+import {defineComponent, toRefs} from "vue";
 import {Post} from "./posts.data";
-import {toRefs} from "@vueuse/core";
 
-export default defineComponent({
-    setup() {
-        const props = defineProps<{
-            posts: Array<Post>,
-        }>();
+export default defineComponent(
+    (props: { posts: Array<Post> }) => {
         const { posts } = toRefs(props);
 
         return () => (
             <>
                 {posts.value.map((post) => (
-                    <article>
+                    <article key={post.title}>
                         <header>
                             <a href={post.url}>
                                 {post.title}
@@ -22,15 +18,22 @@ export default defineComponent({
                             <p>{post.summary}</p>
                         </section>
                         <footer>
-                            {post.date}
+                            {post.date.string}
                             {post.tags.map((tag) => (
-                                <a href={`/tag/${tag}`}>{tag}</a>
+                                <a href={`/tags.html?t=${tag}`}>{tag}</a>
                             ))}
                         </footer>
                     </article>
                 ))}
-
             </>
         );
+    },
+    {
+        props: {
+            posts: {
+                type: Array,
+                required: true,
+            }
+        },
     }
-});
+);
