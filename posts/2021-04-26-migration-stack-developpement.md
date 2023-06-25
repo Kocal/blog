@@ -234,7 +234,7 @@ Pour stopper les containers, lancer simplement `docker-compose stop`.
 
 En lançant `symfony var:export --multiline`, une liste de variables d'environnement semblable devrait s'afficher :
 
-```text
+```shell
 export DATABASE_DATABASE=app
 export DATABASE_NAME=app
 export DATABASE_URL=postgres://app:app@127.0.0.1:49160/app?sslmode=disable&charset=utf8

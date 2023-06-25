@@ -11,10 +11,7 @@ summary: What happens with your Doctrine collections associations when using Que
 <script setup>
 import { useScriptTag } from '@vueuse/core';
 
-useScriptTag('https://platform.twitter.com/widgets.js', {
-    immediate: false,
-    async: true,
-})
+useScriptTag('https://platform.twitter.com/widgets.js')
 </script>
 
 ::: tip 

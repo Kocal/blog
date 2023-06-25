@@ -12,7 +12,7 @@ export interface Post {
 }
 
 declare const data: Post[]
-export { data }
+export { data };
 
 export default createContentLoader('posts/*.md', {
     excerpt: true,
@@ -22,19 +22,19 @@ export default createContentLoader('posts/*.md', {
                 title: frontmatter.title,
                 url,
                 summary: frontmatter.summary,
-                date: formatDate(frontmatter.date, frontmatter.locale),
+                date: formatDate(frontmatter.date, frontmatter.lang),
                 tags: frontmatter.tags,
             }))
             .sort((a, b) => b.date.time - a.date.time)
     }
 })
 
-function formatDate(raw: string, locale: string | undefined): Post['date'] {
+function formatDate(raw: string, lang: string | undefined): Post['date'] {
     const date = new Date(raw)
-    date.setUTCHours(12)
+
     return {
         time: +date,
-        string: date.toLocaleDateString(locale || 'en-US', {
+        string: date.toLocaleDateString(lang || 'en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
