@@ -13,8 +13,8 @@ export default defineComponent({
 
         return () => (
             <>
-                <header>
-                    The header
+                <header role={"banner"}>
+                    <a href="/">Hugo Alliaume</a>
                 </header>
 
                 <main>

@@ -4,13 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "panda codegen",
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview"
   },
   "devDependencies": {
-    "@pandacss/dev": "^0.4.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "@vssue/api-github-v3": "^1.4.7",
     "@vueuse/core": "^10.2.0",
