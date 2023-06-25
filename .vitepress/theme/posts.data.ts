@@ -6,6 +6,7 @@ export interface Post {
     date: {
         time: number
         string: string
+        iso: string,
     }
     summary: string,
     tags: Array<string>,
@@ -34,6 +35,7 @@ function formatDate(raw: string, lang: string | undefined): Post['date'] {
 
     return {
         time: +date,
+        iso: date.toISOString(),
         string: date.toLocaleDateString(lang || 'en-US', {
             year: 'numeric',
             month: 'long',

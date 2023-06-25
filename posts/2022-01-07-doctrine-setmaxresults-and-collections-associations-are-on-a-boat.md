@@ -265,7 +265,7 @@ FROM (SELECT DISTINCT id_0, created_at_1
       ORDER BY created_at_1 ASC) dctrn_result
 LIMIT 1;
 ```
-Which returns : 
+Which returns: 
 | id\_0 |
 | :--- |
 | 1 |

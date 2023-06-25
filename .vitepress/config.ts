@@ -1,10 +1,29 @@
 import { defineConfig } from 'vitepress'
-import vueJsx from '@vitejs/plugin-vue-jsx'
+import { fileURLToPath, URL } from 'node:url'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Hugo Alliaume",
   description: "My Personal Blog",
+  themeConfig: {
+    nav: [
+      { text: 'Tags', link: '/tags' },
+    ],
+    outline: 'deep',
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/Kocal' },
+      { icon: 'twitter', link: 'https://twitter.com/HugoAlliaume' },
+      { icon: 'mastodon', link: 'https://mastodon.social/@Kocal' },
+    ],
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2021-present Hugo Alliaume',
+    },
+    editLink: {
+        text: 'Edit this page on GitHub',
+        pattern: 'https://github.com/kocal/blog/tree/main/:path',
+    }
+  },
   head: [
     ['link', { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" }],
     ['link', { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" }],
@@ -26,6 +45,15 @@ export default defineConfig({
     ],
   ],
   vite: {
-    plugins: [vueJsx()],
+    resolve: {
+      alias: [
+        {
+          find: /^.*\/VPHome\.vue$/,
+          replacement: fileURLToPath(
+              new URL('./theme/layouts/Home.vue', import.meta.url)
+          )
+        }
+      ]
+    }
   }
 })

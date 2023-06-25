@@ -1,5 +1,21 @@
+/**
+ * Customize default theme styling by overriding CSS variables:
+ * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
+ */
 
-html {
-  font-family: Arial, Helvetica;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --vp-c-brand: theme('colors.accent.500') !important;
+    --vp-c-brand-light: theme('colors.accent.400') !important;
 }
 
+.link {
+    color: var(--vp-c-brand);
+}
+
+.link:hover {
+    color: var(--vp-c-brand-light);
+}

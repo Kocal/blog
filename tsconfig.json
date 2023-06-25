@@ -1,5 +1,6 @@
  {
   "compilerOptions": {
-    "jsxImportSource": "vue"
+    "jsxImportSource": "vue",
+    "moduleResolution": "NodeNext"
   }
 }
