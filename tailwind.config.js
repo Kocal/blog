@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
     content: ["./posts/**/*.md", ".vitepress/theme/**/*.vue"],
+    darkMode: ['class', '.dark'],
     theme: {
         screens: {
             'sm': '640px',
