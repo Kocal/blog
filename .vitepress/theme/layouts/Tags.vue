@@ -44,9 +44,9 @@ watch(() => urlSearchParams, () => {
     <div class="Tags">
         <ul class="!list-none !p-0">
             <li v-for="(count, tag) in tags" :key="tag"
-                class="inline-block rounded-full !m-0 !mr-2 !mb-2 cursor-pointer border border-accent-500 active:bg-accent-500">
+                class="inline-block rounded-full !m-0 !mr-2 !mb-2 cursor-pointer bg-accent-500">
                 <a :href="`/tags?t=${tag}`" @click.prevent="urlSearchParams.t = tag"
-                   class="block p-2 !no-underline active:!text-white/90">
+                   class="block p-2 !no-underline !text-white/95">
                     {{ tag }} ({{ count }})
                 </a>
             </li>

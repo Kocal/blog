@@ -10,12 +10,21 @@
 :root {
     --vp-c-brand: theme('colors.accent.500') !important;
     --vp-c-brand-light: theme('colors.accent.400') !important;
+    --vp-c-brand-lighter: theme('colors.accent.300') !important;
 }
 
-.link {
+.link, a {
     color: var(--vp-c-brand);
 }
 
-.link:hover {
+.link:hover, a:hover {
     color: var(--vp-c-brand-light);
+}
+
+html.dark .link, html.dark a {
+    color: var(--vp-c-brand-light);
+}
+
+html.dark .link:hover, html.dark a:hover {
+    color: var(--vp-c-brand-lighter);
 }
