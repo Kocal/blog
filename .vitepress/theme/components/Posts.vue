@@ -8,7 +8,7 @@ const {posts} = toRefs(props);
 </script>
 
 <template>
-    <div class="space-y-12">
+    <div class="space-y-10 md:space-y-12">
         <Post v-for="post in posts" :key="post.url" :post="post"/>
     </div>
 </template>

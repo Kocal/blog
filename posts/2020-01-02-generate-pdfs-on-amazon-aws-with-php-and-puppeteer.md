@@ -8,10 +8,11 @@ tags:
   - browsershot
 date: 2020-01-02
 summary: Using Browsershot and Puppeteer to generate PDFs on Amazon AWS Lambda.
-badges: 
-    - text: outdated
-      type: warning
 ---
+
+# {{ $frontmatter.title }}
+
+<PostMeta class="mt-2" :date="$frontmatter.date" :tags="$frontmatter.tags" :lang="$frontmatter.lang" />
 
 ::: warning EDIT: 21st april 2020
 This article was initially written by comparing 3 solutions and described [solution #1](#solution-1). 

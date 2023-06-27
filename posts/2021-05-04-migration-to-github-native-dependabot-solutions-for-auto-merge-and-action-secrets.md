@@ -8,6 +8,10 @@ date: 2021-05-04
 summary: Solutions for re-enabling auto-merging and secrets Action after migrating to GitHub-native Dependabot.
 ---
 
+# {{ $frontmatter.title }}
+
+<PostMeta class="mt-2" :date="$frontmatter.date" :tags="$frontmatter.tags" :lang="$frontmatter.lang" />
+
 ## The end of Dependabot Preview is near
 
 Dependabot Preview ([dependabot.com](https://dependabot.com/)) - which [was acquired by GitHub](https://dependabot.com/blog/hello-github/) on May 23rd, 2019 - will be shut down on August 3rd, 2021

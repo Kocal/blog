@@ -14,10 +14,12 @@ import { useScriptTag } from '@vueuse/core';
 useScriptTag('https://platform.twitter.com/widgets.js')
 </script>
 
+# {{ $frontmatter.title }}
+
+<PostMeta class="mt-2" :date="$frontmatter.date" :tags="$frontmatter.tags" :lang="$frontmatter.lang" />
+
 ::: tip 
-
 This blog post is associated with some code that you can find [here](https://github.com/Kocal/blog/tree/main/posts-assets/2022-01-07-doctrine-setmaxresults-and-collections-associations-are-on-a-boat/demo-project).
-
 :::
 
 Today, we gonna talk about an issue with <abbr title="DataBase Managment System">DBMS</abbr>, [Doctrine](https://www.doctrine-project.org/), `QueryBuilder::setMaxResults()` and collections associations.
