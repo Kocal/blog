@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import {data as posts} from '../posts.data';
-import Posts from "../Posts.vue";
-import {useUrlSearchParams} from "@vueuse/core";
-import {computed} from 'vue';
+import Posts from "../components/Posts.vue";
+import {useTitle, useUrlSearchParams} from "@vueuse/core";
+import {computed, watch} from 'vue';
+import {useData} from "vitepress";
+
+const {frontmatter, site} = useData();
 
 const tags = posts.reduce((acc, post) => {
     post.tags.forEach(tag => {
@@ -24,14 +27,27 @@ const filteredPosts = computed(() => {
 
     return posts;
 });
+
+watch(() => urlSearchParams, () => {
+    if (urlSearchParams.t) {
+        useTitle(`${frontmatter.value.title} (${urlSearchParams.t}) | ${site.value.title}`);
+    } else {
+        useTitle(`${frontmatter.value.title} | ${site.value.title}`);
+    }
+}, {
+    deep: true,
+    immediate: true,
+});
 </script>
 
 <template>
     <div class="Tags">
-        <ul>
-            <li v-for="(count, tag) in tags" :key="tag">
-                <a :href="`/tags?t=${tag}`" @click.prevent="urlSearchParams.t = 'tag'">
-                    {{ tag }} ({count})
+        <ul class="!list-none !p-0">
+            <li v-for="(count, tag) in tags" :key="tag"
+                class="inline-block rounded-full !m-0 !mr-2 !mb-2 cursor-pointer border border-accent-500 active:bg-accent-500">
+                <a :href="`/tags?t=${tag}`" @click.prevent="urlSearchParams.t = tag"
+                   class="block p-2 !no-underline active:!text-white/90">
+                    {{ tag }} ({{ count }})
                 </a>
             </li>
         </ul>
