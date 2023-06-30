@@ -41,7 +41,7 @@ watch(() => urlSearchParams, () => {
 </script>
 
 <template>
-    <div class="Tags">
+    <div>
         <ul class="!list-none !p-0">
             <li v-for="(count, tag) in tags" :key="tag"
                 class="inline-block rounded-full !m-0 !mr-2 !mb-2 cursor-pointer bg-accent-500">
