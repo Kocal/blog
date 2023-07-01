@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { fileURLToPath, URL } from 'node:url'
+import {getJSONLD} from "./theme/json-ld.js";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -23,6 +24,16 @@ export default defineConfig({
         text: 'Edit this page on GitHub',
         pattern: 'https://github.com/kocal/blog/tree/main/:path',
     }
+  },
+  async transformPageData(pageData, context) {
+    return {
+      frontmatter: {
+        ...pageData.frontmatter,
+        head: [
+          ["script", {type: "application/ld+json"}, JSON.stringify(await getJSONLD(pageData, context))],
+        ],
+      },
+    };
   },
   markdown: {
     anchor: {

@@ -6,7 +6,7 @@ const {summary} = toRefs(props);
 </script>
 
 <template>
-    <section itemprop="abstract" class="prose prose-sm dark:prose-invert max-w-none my-3">
+    <section class="prose prose-sm dark:prose-invert max-w-none my-3">
         <p>{{ summary }}</p>
     </section>
 </template>

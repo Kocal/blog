@@ -10,10 +10,10 @@ const {post} = toRefs(props);
 </script>
 
 <template>
-    <article itemscope itemtype="https://schema.org/BlogPosting" :itemid="post.url" class="px-2">
+    <article class="px-2">
         <header>
             <h2>
-                <VPLink itemprop="name" :href="post.url" class="text-lg md:text-2xl tracking-tight font-bold">
+                <VPLink :href="post.url" class="text-lg md:text-2xl tracking-tight font-bold">
                     {{ post.title }}
                 </VPLink>
             </h2>

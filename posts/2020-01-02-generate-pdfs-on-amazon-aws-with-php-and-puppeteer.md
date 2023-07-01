@@ -8,6 +8,12 @@ tags:
   - browsershot
 date: 2020-01-02
 summary: Using Browsershot and Puppeteer to generate PDFs on Amazon AWS Lambda.
+dependencies: 
+  - PHP
+  - Browsershot
+  - Node.js
+  - Puppeteer
+proficiencyLevel: Expert
 ---
 
 # {{ $frontmatter.title }}

@@ -5,5 +5,5 @@ const { Layout } = DefaultTheme
 </script>
 
 <template>
-    <Layout itemscope itemtype="https://schema.org/Blog" />
+    <Layout />
 </template>

@@ -1,4 +1,4 @@
-import { createContentLoader } from 'vitepress'
+import {createContentLoader} from 'vitepress'
 
 export interface Post {
     title: string
@@ -11,22 +11,26 @@ export interface Post {
     summary: string,
     tags: Array<string>,
     lang: string | undefined,
+    dependencies: Array<string>,
+    proficiencyLevel: string | undefined,
 }
 
 declare const data: Post[]
-export { data };
+export {data};
 
 export default createContentLoader('posts/*.md', {
     excerpt: true,
     transform(raw): Post[] {
         return raw
-            .map(({ url, frontmatter, excerpt }) => ({
-                title: frontmatter.title,
+            .map(({url, frontmatter, excerpt}) => ({
                 url,
+                title: frontmatter.title,
                 summary: frontmatter.summary,
                 date: formatDate(frontmatter.date, frontmatter.lang),
                 tags: frontmatter.tags,
                 lang: frontmatter.lang,
+                dependencies: frontmatter.dependencies || [],
+                proficiencyLevel: frontmatter.proficiencyLevel,
             }))
             .sort((a, b) => b.date.time - a.date.time)
     }

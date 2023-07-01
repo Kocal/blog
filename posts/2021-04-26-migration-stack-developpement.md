@@ -9,6 +9,12 @@ tags:
 - node.js
 date: 2021-04-26
 summary: Pourquoi et comment migrer des machines virtuelles à de l'hybride et containers Docker.
+dependencies:
+  - Docker
+  - Symfony CLI
+  - PHP
+  - Node.js
+proficiencyLevel: Expert
 ---
 
 # {{ $frontmatter.title }}
@@ -21,7 +27,7 @@ voir [Un environnement de développement sain en 2021. Bonjour Docker, bye machi
 :::
 
 Chez [yProximité](https://www.y-proximite.fr/), agence web, on utilise les machines virtuelles depuis plusieurs années comme stack de développement sur tous nos différents projets web, afin de mettre
-un place un environnement de développement complet avec un serveur web nginx, PHP, Node.js, une base de données et Redis.
+en place un environnement de développement complet avec un serveur web nginx, PHP, Node.js, une base de données et Redis.
 
 Pour cela, on utilise :
 

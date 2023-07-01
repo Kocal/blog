@@ -8,6 +8,12 @@ tags:
   - browsershot
 date: 2020-04-21
 summary: Create a bridge around chrome-aws-lambda, reducing maintenance and working time and exhaust.
+dependencies:
+  - PHP
+  - Browsershot
+  - Node.js
+  - Puppeteer
+proficiencyLevel: Expert
 ---
 
 # {{ $frontmatter.title }}
