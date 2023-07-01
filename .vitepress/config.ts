@@ -24,6 +24,11 @@ export default defineConfig({
         pattern: 'https://github.com/kocal/blog/tree/main/:path',
     }
   },
+  markdown: {
+    anchor: {
+      level: [2, 3, 4, 5, 6],
+    }
+  },
   head: [
     ['link', { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" }],
     ['link', { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" }],
