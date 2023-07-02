@@ -8,7 +8,7 @@ tags:
   - browsershot
 date: 2020-01-02
 summary: Using Browsershot and Puppeteer to generate PDFs on Amazon AWS Lambda.
-dependencies: 
+dependencies:
   - PHP
   - Browsershot
   - Node.js
@@ -21,7 +21,7 @@ proficiencyLevel: Expert
 <PostMeta class="mt-2" :date="$frontmatter.date" :tags="$frontmatter.tags" :lang="$frontmatter.lang" />
 
 ::: warning EDIT: 21st april 2020
-This article was initially written by comparing 3 solutions and described [solution #1](#solution-1). 
+This article was initially written by comparing 3 solutions and described [solution #1](#solution-1).
 
 Since the 21st april 2020, a new solution was added, and it's definitely the best solution, see [solution #4](#edit-21-04-2020-solution-4).
 :::
@@ -34,6 +34,7 @@ Our servers are great, but they weren't powerful enough and scalable to generate
 I assume you have some knowledge about AWS SQS/Lambda and [the Symfony Messenger Component](https://symfony.com/doc/current/components/messenger.html) before reading this article. More info on [**Symfony Messenger on AWS Lambda**](https://developer.happyr.com/symfony-messenger-on-aws-lambda)
 
 This is the plan:
+
 - our CMS (Symfony) generates and send a message to the SQS queue. Thanks to the Messenger component, [happyr/message-serializer](https://github.com/Happyr/message-serializer), [sroze/messenger-enqueue-transport](https://github.com/sroze/messenger-enqueue-transport) and [enqueue/sqs](https://github.com/php-enqueue/sqs)
 - the SQS queue receives messages and pass them to the lambda
 - our lambda consumes the message, generates a PDF and save it on [Scaleway](https://www.scaleway.com/) ([Amazon S3](https://aws.amazon.com/en/s3/) like, but cheaper and **easier** to use)
@@ -121,7 +122,7 @@ Then run `serverless deploy` and... uh? the lambda size is too big?
 Yup, it's too big because of the Chrome binary that has been downloaded when installing puppeteer:
 
 ```shell{5}
-➜  puppeteer-deps l node_modules/puppeteer/.local-chromium/linux-706915/chrome-linux 
+➜  puppeteer-deps l node_modules/puppeteer/.local-chromium/linux-706915/chrome-linux
 total 279M
 drwxr-xr-x 7 kocal kocal 4,0K janv.  2 10:09 .
 drwxr-xr-x 3 kocal kocal 4,0K janv.  2 10:09 ..
@@ -149,12 +150,13 @@ drwxr-xr-x 2 kocal kocal 4,0K janv.  2 10:09 swiftshader
 -rw-r--r-- 1 kocal kocal 619K janv.  2 10:09 v8_context_snapshot.bin
 -rwxr-xr-x 1 kocal kocal  37K janv.  2 10:09 xdg-mime
 -rwxr-xr-x 1 kocal kocal  33K janv.  2 10:09 xdg-settings
-➜  puppeteer-deps 
+➜  puppeteer-deps
 ```
 
 On [AWS Lambda limits](https://docs.aws.amazon.com/en_en/lambda/latest/dg/limits.html) page, the deployment package size is:
-  - 50 MB (zipped)
-  - 250 MB (unzipped)
+
+- 50 MB (zipped)
+- 250 MB (unzipped)
 
 But when we zip the Chrome binary and its libraries, the size is about 100 MB and so it fails:
 
@@ -172,8 +174,9 @@ What can we do?
 ## Use a _Brotli-fied_ Chrome
 
 During all my research to make Chrome runnable on AWS Lambda, I've found [chrome-aws-lambda](https://github.com/alixaxel/chrome-aws-lambda), a Node.js package that:
+
 - ship a _[Brotli](https://github.com/google/brotli)-fied_ Chrome (**~ 36MB**) which can run on AWS Lambda (see [`bin/` directory](https://github.com/alixaxel/chrome-aws-lambda/tree/master/bin))
-- provide a small wrapper around Puppeteer which uncompress Chrome on-the-fly 
+- provide a small wrapper around Puppeteer which uncompress Chrome on-the-fly
 
 Okay great, we have a Chrome that can by used on AWS Lambda, but now we are facing many solutions.
 
@@ -182,11 +185,13 @@ Okay great, we have a Chrome that can by used on AWS Lambda, but now we are faci
 Download the brotlified Chrome, commit it in our project, and write some PHP to uncompress Chrome at runtime.
 
 **Pros:**
+
 - Fatest solution
 - We have a total control over Chrome binaries
 
 **Cons:**
-- Chrome updates should be applied manually 
+
+- Chrome updates should be applied manually
 
 ### Solution #2
 
@@ -195,19 +200,23 @@ Download the brotlified Chrome, commit it in our project, and write some PHP to 
 Install the package `chrome-aws-lambda` and write some PHP to uncompress Chrome at runtime.
 
 **Pros:**
+
 - Chrome updates are automatically applied
 
 **Cons:**
-- The binaries are _hidden_ by `chrome-aws-lambda`, it means that you can't rely on them without using the provided wrapper. Between [v1.20.1](https://github.com/alixaxel/chrome-aws-lambda/tree/v1.20.1/bin) and [v1.20.2](https://github.com/alixaxel/chrome-aws-lambda/tree/v1.20.2/bin) the `bin/` directory structure has been modified and shared libraries are archived with `tar`. If we had installed `chrome-aws-lambda` without a fixed version constraint (eg.: `1.20.1`), then the PDFs generation might have fails and it would have been **really critical** for us. 
+
+- The binaries are _hidden_ by `chrome-aws-lambda`, it means that you can't rely on them without using the provided wrapper. Between [v1.20.1](https://github.com/alixaxel/chrome-aws-lambda/tree/v1.20.1/bin) and [v1.20.2](https://github.com/alixaxel/chrome-aws-lambda/tree/v1.20.2/bin) the `bin/` directory structure has been modified and shared libraries are archived with `tar`. If we had installed `chrome-aws-lambda` without a fixed version constraint (eg.: `1.20.1`), then the PDFs generation might have fails and it would have been **really critical** for us.
 
 ### Solution #3
 
 Fork `chrome-aws-lambda`, write a PHP wrapper, and open a pull request.
 
 **Pros:**
+
 - The PHP wrapper would have been available for more users
 
 **Cons:**
+
 - Time to wait before potential merging? We had a deadline for our new big functionality
 - Maybe the PR could have been refused
 - Two wrappers to maintain and test
@@ -217,15 +226,17 @@ Fork `chrome-aws-lambda`, write a PHP wrapper, and open a pull request.
 I've found a better solution by using `chrome-aws-lambda` in a bridge.
 
 **Pros:**
+
 - No manual updates
 - No need to handle Chrome binaries uncompressing ourself
 
 **Cons:**
+
 - I didn't find anyone yet
 
 Please read article [Generate PDFs on Amazon AWS with PHP and Puppeteer: The Best Way](./2020-04-21-generate-pdfs-on-amazon-aws-with-php-and-puppeteer-the-best-way.md) to know more about.
 
-## Use Chrome, Browsershot and Puppeteer on Amazon AWS 
+## Use Chrome, Browsershot and Puppeteer on Amazon AWS
 
 We used the Solution #1 for the stability and lake of time.
 
@@ -306,7 +317,7 @@ class Chromium
 
 This is the class which will uncompress Chrome at the runtime into `/tmp/chromium` folder.
 
-We have profiled this part of code and it takes ~2-3 seconds on a _fresh_ lamda, but it can be much faster if the lambda is re-used (`/tmp` is not cleared and uncompressed Chrome is still here). 
+We have profiled this part of code and it takes ~2-3 seconds on a _fresh_ lamda, but it can be much faster if the lambda is re-used (`/tmp` is not cleared and uncompressed Chrome is still here).
 
 ```php
 <?php declare(strict_types=1);
@@ -402,7 +413,7 @@ and configure it like this:
 services:
   # default configuration for services in *this* file
   _defaults:
-    autowire: true      # Automatically injects dependencies in your services.
+    autowire: true # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
   # ... your Symfony services ...

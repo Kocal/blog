@@ -1,12 +1,12 @@
 ---
-lang: "fr"
+lang: 'fr'
 title: Migration de notre stack de développement vers Docker
 tags:
-- virtual machine
-- docker
-- symfony cli
-- php
-- node.js
+  - virtual machine
+  - docker
+  - symfony cli
+  - php
+  - node.js
 date: 2021-04-26
 summary: Pourquoi et comment migrer des machines virtuelles à de l'hybride et containers Docker.
 dependencies:
@@ -52,14 +52,14 @@ En revanche, plusieurs années ont passé et l'équipe et moi-même avons rencon
 3. Des soucis d'optimisation d'espace disque. Avec une VM par projet, l'espace disque utilisé peut monter assez vite (~160 Go utilisé après 3 ans sans nettoyage).
 4. Des problèmes de consommation CPU / RAM, faire tourner une ou plusieurs VM, avec PhpStorm, avec Google Chrome, etc... le tout en même temps, ce n'est pas donné à tout le monde. Il faut avoir une
    très bonne machine capable d'encaisser la charge.
-6. Il y a des fichiers importants qu'il faut importer dans la VM (`~/.ssh/config`, `~/.composer/auth.json`, `~/.gitconfig`, ...), ça se fait automatiquement au boot de la VM, mais bon...
-5. Les machines virtuelles ne seront pas utilisables sur les nouveaux Mac tournant sour CPU ARM, [Tristan Bessoussa](https://twitter.com/sf_tristanb) en parle très bien sur [son article](https://devops-life.com/blog/2021/04/28/un-environnement-de-developpement-sain-en-2021-hello-docker-goodbye-machines-virtuelles/).
+5. Il y a des fichiers importants qu'il faut importer dans la VM (`~/.ssh/config`, `~/.composer/auth.json`, `~/.gitconfig`, ...), ça se fait automatiquement au boot de la VM, mais bon...
+6. Les machines virtuelles ne seront pas utilisables sur les nouveaux Mac tournant sour CPU ARM, [Tristan Bessoussa](https://twitter.com/sf_tristanb) en parle très bien sur [son article](https://devops-life.com/blog/2021/04/28/un-environnement-de-developpement-sain-en-2021-hello-docker-goodbye-machines-virtuelles/).
 
 ### Problèmes applicatifs
 
 7. Le _watching_ de fichiers (le fait d'observer les modifications sur des fichiers en temps réel) qui ne fonctionne pas correctement à cause de l'utilisation de NFS :
-    - pour faire fonctionner le dev-server de webpack, on a dû configurer le [_polling_](https://webpack.js.org/configuration/watch/#watchoptionspoll)
-    - pour faire fonctionner le watch de TailwindCSS, on a également dû configurer le polling via `CHOKIDAR_USEPOLLING=1` ([discussion GitHub](https://github.com/tailwindlabs/tailwindcss/discussions/4024))
+   - pour faire fonctionner le dev-server de webpack, on a dû configurer le [_polling_](https://webpack.js.org/configuration/watch/#watchoptionspoll)
+   - pour faire fonctionner le watch de TailwindCSS, on a également dû configurer le polling via `CHOKIDAR_USEPOLLING=1` ([discussion GitHub](https://github.com/tailwindlabs/tailwindcss/discussions/4024))
 8. Pour nos git hooks ou tests Cypress (tout ce qui peut être lancé dans et en dehors de la VM en fait), il fallait passer par un petit script `vagrant-wrapper.sh` pour s'assurer que nos commandes
    soient bien exécutées dans la VM :
 
@@ -98,7 +98,7 @@ end
 ```
 
 10. Si l'un de nos projets dépend d'un autre (ex : projet **A** qui utilise l'API du projet **B** et qui est en HTTPS), alors il fallait importer le certificat racine de mkcert dans la VM (cette
-   solution n'a été testée que sous Debian/Ubuntu, ne fonctionne sans doute pas sous macOS) :
+    solution n'a été testée que sous Debian/Ubuntu, ne fonctionne sans doute pas sous macOS) :
 
 ```ruby
 Vagrant.configure(2) do |config|
@@ -159,13 +159,13 @@ Je sais par expérience que :
 
 - il est facile d'installer nginx, mais ce n'est peut-être pas forcément l'idéal... à voir comment gérer les noms de domaines
 - il est très facile d'installer plusieurs versions de PHP, via :
-    - le [PPA d'Ondrej](https://launchpad.net/~ondrej/+archive/ubuntu/php) pour Ubuntu,
-    - le [DPA Sury.org/PHP](https://packages.sury.org/php/) pour Debian,
-    - [Brew](https://brew.sh/) pour macOS et Linux,
-    - ou encore [phpenv](https://github.com/phpenv/phpenv) pour macOS et Linux également
+  - le [PPA d'Ondrej](https://launchpad.net/~ondrej/+archive/ubuntu/php) pour Ubuntu,
+  - le [DPA Sury.org/PHP](https://packages.sury.org/php/) pour Debian,
+  - [Brew](https://brew.sh/) pour macOS et Linux,
+  - ou encore [phpenv](https://github.com/phpenv/phpenv) pour macOS et Linux également
 - il est également très facile d'installer plusieurs version de Node.js, via :
-    - [nvm](https://github.com/nvm-sh/nvm) pour macOS et Linux,
-    - [n](https://github.com/tj/n) pour macOS et Linux également
+  - [nvm](https://github.com/nvm-sh/nvm) pour macOS et Linux,
+  - [n](https://github.com/tj/n) pour macOS et Linux également
 - installer des serveurs de base de données et gérer différentes versions en même temps, c'est **UNE HORREUR** et je n'ai pas envie de bousiller ma machine
 - installer Redis globalement n'est peut-être pas la meilleure des idées non plus...
 
@@ -177,27 +177,27 @@ Avec ce constat, je me suis dit qu'on pouvait tenter une stack hybride :
 
 ## Symfony CLI :sparkles:
 
-[Symfony CLI](https://github.com/symfony/cli) est un outil écrit en Go et qui a notamment remplacé l'ancien [Symfony WebServerBundle](https://github.com/symfony/web-server-bundle). 
+[Symfony CLI](https://github.com/symfony/cli) est un outil écrit en Go et qui a notamment remplacé l'ancien [Symfony WebServerBundle](https://github.com/symfony/web-server-bundle).
 On l'utilise déjà sur nos CI pour lancer un serveur web pour nos tests E2E avec [Cypress](https://www.cypress.io/).
 
-Mais ce n'est pas tout. Symfony CLI est un outil surboosté aux vitamines avec d'incroyables fonctionnalités permettant de régler plusieurs problématiques : 
+Mais ce n'est pas tout. Symfony CLI est un outil surboosté aux vitamines avec d'incroyables fonctionnalités permettant de régler plusieurs problématiques :
 
-- on peut donc de démarrer un serveur web, bye Nginx :wave: 
-- on peut activer [le support d'HTTPS](https://symfony.com/doc/current/setup/symfony_server.html#enabling-tls), bye mkcert :wave: 
+- on peut donc de démarrer un serveur web, bye Nginx :wave:
+- on peut activer [le support d'HTTPS](https://symfony.com/doc/current/setup/symfony_server.html#enabling-tls), bye mkcert :wave:
 - on peut définir [des noms de domaines grâce à un proxy local](https://symfony.com/doc/current/setup/symfony_server.html#setting-up-the-local-proxy), bye Landrush :wave:
 - on peut [configurer PHP via un `php.ini`](https://symfony.com/doc/current/setup/symfony_server.html#overriding-php-config-options-per-project) , super pratique pour configurer la timezone ou activer/désactiver XDebug,
 - on peut [configurer la version de PHP](https://symfony.com/doc/current/setup/symfony_server.html#selecting-a-different-php-version) à utiliser via un fichier `.php-version`
-::: tip 
-Ça veut dire qu'il faut utiliser le binaire `symfony` pour exécuter des commandes/binaires avec la bonne version de PHP :
+  ::: tip
+  Ça veut dire qu'il faut utiliser le binaire `symfony` pour exécuter des commandes/binaires avec la bonne version de PHP :
 - PHP via `symfony php` (ex : `symfony php bin/phpstan analyze`)
 - Composer via `symfony composer` (ex : `symfony composer install`)
 - La console Symfony avec le raccourci `symfony console` (ex : `symfony console cache:clear`)
-:::
-- et le plus exceptionnel, une [intégration avec Docker](https://symfony.com/doc/current/setup/symfony_server.html#docker-integration) qui permet de définir automatiquement des variables 
+  :::
+- et le plus exceptionnel, une [intégration avec Docker](https://symfony.com/doc/current/setup/symfony_server.html#docker-integration) qui permet de définir automatiquement des variables
   d'environnement en fonction des containers. Si on utilise un container pour une base de données, alors `DATABASE_URL` sera automatiquement définie **et c'est PARFAIT pour nous !** :heart_eyes:
-::: warning 
-Le binaire `symfony` utilisera **toujours** les variables d'environnement détectées via Docker et ignorera les variables d'environnement locales. 
-  
+  ::: warning
+  Le binaire `symfony` utilisera **toujours** les variables d'environnement détectées via Docker et ignorera les variables d'environnement locales.
+
 Cela veut dire que les variables d'environnement `DATABASE_URL`, `REDIS_URL`, etc... définies dans vos `.env` ou `.env.test` **ne seront pas utilisées**.
 :::
 
@@ -257,12 +257,13 @@ Si c'est le cas, félicitations ! Le binaire `symfony` a correctement détecté 
 ## En résumé
 
 En résumé, que faut-il pour bénéficier de ce nouvel environnement de développement ?
+
 - Avoir PHP installé localement
 - Avoir Node.js installé localement (ou non)
 - Utiliser Docker pour les bases de données et Redis
 - Utiliser le Symfony CLI en tant que serveur web, proxy pour le nom de domaine, le https, et l'intégration Docker
 
-Mise en oeuvre sur un projet : 
+Mise en oeuvre sur un projet :
 
 - Créer un `docker-compose.yaml` à votre sauce
 - Puis lancer les commandes suivantes :
@@ -284,7 +285,7 @@ Enjoy !
 Pour faciliter la maintenance, l'évolutivité, la configuration et la gestion de ces toutes étapes à travers nos différents projets, on utilise [l'outil Manala](https://manala.github.io/manala/)
 permettant l'utilisation d'un système de recipes (recettes) et de générer automatiquement plusieurs fichiers à partir d'un seul point d'entrée : le fichier de configuration `.manala.yaml`.
 
-Il y a des [recipes officielles](https://github.com/manala/manala-recipes) fournies par Manala, mais ça ne nous convenait pas forcément. 
+Il y a des [recipes officielles](https://github.com/manala/manala-recipes) fournies par Manala, mais ça ne nous convenait pas forcément.
 On a donc créé [notre propre repository de recipes](https://github.com/yproximite/manala-recipes), avec une [recipe `yprox.app-docker`](https://github.com/Yproximite/manala-recipes/tree/main/yprox.app-docker)
 qui permet :
 
@@ -292,12 +293,13 @@ qui permet :
 - de définir une configuration PHP, qui sera injectée dans le `php.ini`
 - de définir quelle base de données et quelle version utiliser, qui modifiera le `docker-compose.yaml`
 - de mettre à disposition quelques commandes :
-    - `make setup` : à exécuter qu'une seule fois, pour _setuper_ le projet, créer les containers Docker...
-    - `make up` : pour lancer le proxy local Symfony et les containers Docker
-    - `make halt` : pour stopper les containers Docker (quand la journée est finie :stuck_out_tongue: )
-    - `make destroy` : pour supprimer les containers Docker et volumes associés
+  - `make setup` : à exécuter qu'une seule fois, pour _setuper_ le projet, créer les containers Docker...
+  - `make up` : pour lancer le proxy local Symfony et les containers Docker
+  - `make halt` : pour stopper les containers Docker (quand la journée est finie :stuck_out_tongue: )
+  - `make destroy` : pour supprimer les containers Docker et volumes associés
 
 La recipe s'installe facilement :
+
 ```shell
 manala init -i yprox.app-docker --repository https://github.com/Yproximite/manala-recipes.git
 ```
@@ -306,12 +308,13 @@ Pour mettre à jour la recipe, simplement lancer un `manala up` :tada:.
 
 Il ne me faut pas plus de 2 minutes pour mettre à jour la recipe sur 4 ou 5 projets, c'est un vrai gain de temps considérable !
 
-**Bonus :** voir [Mise en place de l'environnement de développement en ~1 minute](#mise-en-place-de-l-environnement-de-developpement-en-1-minute) pour la mise en place et utilisation 
+**Bonus :** voir [Mise en place de l'environnement de développement en ~1 minute](#mise-en-place-de-l-environnement-de-developpement-en-1-minute) pour la mise en place et utilisation
 de la recipe Manala `yprox.app-docker`.
 
 ### Mise en place de l'environnement de développement en ~1 minute
 
 Sur un projet existant avec du PHP, Node.js, PostgreSQL et Redis :
+
 - installation de la [recipe Manala `yprox.app-docker`](https://github.com/Yproximite/manala-recipes/tree/main/yprox.app-docker)
 - migration du Makefile pour utiliser `make setup` et les `$(symfony)`
 - création des containers Docker
@@ -322,8 +325,7 @@ Le tout en **en ~1 minute** :heart_eyes:
 <video style="max-width: 100%" controls>
   <source src="./2021-04-26-migration-stack-developpement-assets/manala-init.mp4" type="video/mp4">
   Your browser does not support the video tag.
-</video> 
-
+</video>
 
 ### Intégration avec le CI ?
 
@@ -431,16 +433,16 @@ jobs:
 
             - run: echo "PHP_VERSION=$(cat .php-version | xargs)" >> $GITHUB_ENV
             - run: echo "NODE_VERSION=$(cat .nvmrc | xargs)" >> $GITHUB_ENV
-            
+
             # Installation de PHP et Node.js
-            
+
 +           # Configure le Symfony CLI et lance les containers Docker
 +           - run: make setup@integration
 ```
 
 #### Exemple complet
 
-On a créé une GitHub Action locale qui définit plusieurs variables d'environnement. 
+On a créé une GitHub Action locale qui définit plusieurs variables d'environnement.
 De cette façon on peut l'utiliser dans plusieurs jobs et éviter de dupliquer pas mal de lignes :
 
 ```yaml
@@ -537,7 +539,7 @@ jobs:
       - run: APP_ENV=test symfony console doctrine:schema:validate # force APP_ENV=test because only the test database is created
       - run: symfony console api:swagger:export > /dev/null # Check if ApiPlatform is correctly configured
 
-      # Lint des fichiers Twig, Yaml et XLIFF 
+      # Lint des fichiers Twig, Yaml et XLIFF
       - run: symfony console lint:twig templates
       - run: symfony console lint:yaml config --parse-tags
       - run: symfony console lint:xliff translations
