@@ -32,6 +32,7 @@ export default defineConfig({
       text: 'Edit this page on GitHub',
       pattern: 'https://github.com/kocal/blog/tree/main/:path',
     },
+    externalLinkIcon: true,
   },
   markdown: {
     theme: {
