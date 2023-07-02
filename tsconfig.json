@@ -1,4 +1,4 @@
- {
+{
   "compilerOptions": {
     "jsxImportSource": "vue",
     "moduleResolution": "NodeNext",

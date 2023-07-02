@@ -5,7 +5,7 @@ $ composer install
 $ composer run setup-db
 ```
 
-## Usage 
+## Usage
 
 ```shell
 $ php demo-1st-created-pet-with-1-picture.php
