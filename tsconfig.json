@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "jsxImportSource": "vue",
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["ESNext", "DOM"]
   }
