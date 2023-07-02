@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import {getJSONLD} from "./theme/json-ld.js";
 import {SitemapStream} from "sitemap";
+import {imagetools} from "vite-imagetools";
 
 const sitemapLinks = [];
 
@@ -103,6 +104,13 @@ export default defineConfig({
     await new Promise((r) => writeStream.on('finish', r))
   },
   vite: {
+    plugins: [
+      imagetools({
+        defaultDirectives: new URLSearchParams({
+          format: 'webp'
+        })
+      })
+    ],
     resolve: {
       alias: [
         {
