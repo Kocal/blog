@@ -13,6 +13,10 @@ export default defineConfig({
   titleTemplate: ":title • Hugo Alliaume",
   description: "My Personal Blog",
   lang: "en",
+  srcExclude: [
+      '**/posts-assets',
+      '**/README.md'
+  ],
   themeConfig: {
     siteTitle: "Hugo Alliaume's Blog",
     nav: [
@@ -67,7 +71,7 @@ export default defineConfig({
     ],
   ],
   transformHtml(html, id, { pageData }) {
-    if (['README.md', 'index.md'].includes(pageData.relativePath) || /[\\/]404\.html$/.test(id) || id.includes('/posts-assets/')) {
+    if (['index.md'].includes(pageData.relativePath) || /[\\/]404\.html$/.test(id) || id.includes('/posts-assets/')) {
       return;
     }
 
