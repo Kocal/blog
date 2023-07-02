@@ -71,7 +71,7 @@ export default defineConfig({
     ],
   ],
   transformHtml(html, id, { pageData }) {
-    if (['index.md'].includes(pageData.relativePath) || /[\\/]404\.html$/.test(id) || id.includes('/posts-assets/')) {
+    if (['index.md'].includes(pageData.relativePath) || /[\\/]404\.html$/.test(id)) {
       return;
     }
 
