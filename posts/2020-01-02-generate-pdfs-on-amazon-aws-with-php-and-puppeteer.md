@@ -8,10 +8,17 @@ tags:
   - browsershot
 date: 2020-01-02
 summary: Using Browsershot and Puppeteer to generate PDFs on Amazon AWS Lambda.
-badges: 
-    - text: outdated
-      type: warning
+dependencies: 
+  - PHP
+  - Browsershot
+  - Node.js
+  - Puppeteer
+proficiencyLevel: Expert
 ---
+
+# {{ $frontmatter.title }}
+
+<PostMeta class="mt-2" :date="$frontmatter.date" :tags="$frontmatter.tags" :lang="$frontmatter.lang" />
 
 ::: warning EDIT: 21st april 2020
 This article was initially written by comparing 3 solutions and described [solution #1](#solution-1). 
@@ -113,7 +120,7 @@ Then run `serverless deploy` and... uh? the lambda size is too big?
 
 Yup, it's too big because of the Chrome binary that has been downloaded when installing puppeteer:
 
-```{5}
+```shell{5}
 ➜  puppeteer-deps l node_modules/puppeteer/.local-chromium/linux-706915/chrome-linux 
 total 279M
 drwxr-xr-x 7 kocal kocal 4,0K janv.  2 10:09 .
@@ -151,7 +158,7 @@ On [AWS Lambda limits](https://docs.aws.amazon.com/en_en/lambda/latest/dg/limits
 
 But when we zip the Chrome binary and its libraries, the size is about 100 MB and so it fails:
 
-```{6}
+```shell{6}
 ➜  puppeteer-deps l node_modules/puppeteer/.local-chromium/linux-706915
 total 106M
 drwxr-xr-x 3 kocal kocal 4,0K janv.  2 10:13 .
@@ -246,7 +253,7 @@ When working on the lambda, the latest version of `chrome-aws-lambda` was 1.20.1
 
 We have created a directory `chromium`, downloaded `.br` files and put them like this:
 
-```
+```shell
 ➜  the-lambda git:(master) tree chromium
 chromium
 ├── chromium-78.0.3882.0.br

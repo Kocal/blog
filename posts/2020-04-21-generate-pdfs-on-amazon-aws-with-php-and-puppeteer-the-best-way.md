@@ -8,7 +8,17 @@ tags:
   - browsershot
 date: 2020-04-21
 summary: Create a bridge around chrome-aws-lambda, reducing maintenance and working time and exhaust.
+dependencies:
+  - PHP
+  - Browsershot
+  - Node.js
+  - Puppeteer
+proficiencyLevel: Expert
 ---
+
+# {{ $frontmatter.title }}
+
+<PostMeta class="mt-2" :date="$frontmatter.date" :tags="$frontmatter.tags" :lang="$frontmatter.lang" />
 
 ::: warning
 This article is a following of article [Generate PDFs on Amazon AWS with PHP and Puppeteer](./2020-01-02-generate-pdfs-on-amazon-aws-with-php-and-puppeteer.md), you must consider reading it before going further.

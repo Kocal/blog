@@ -1,3 +1,8 @@
 node_modules/
 *.log
-.vuepress/dist
+.vitepress/dist
+.vitepress/cache
+
+# Panda
+styled-system
+styled-system-static

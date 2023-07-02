@@ -1,0 +1,30 @@
+/**
+ * Customize default theme styling by overriding CSS variables:
+ * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --vp-c-brand: theme('colors.accent.600') !important;
+    --vp-c-brand-light: theme('colors.accent.400') !important;
+    --vp-c-brand-lighter: theme('colors.accent.300') !important;
+}
+
+.link, a {
+    color: var(--vp-c-brand);
+}
+
+.link:hover, a:hover {
+    color: var(--vp-c-brand-light);
+}
+
+html.dark .link, html.dark a {
+    color: var(--vp-c-brand-light);
+}
+
+html.dark .link:hover, html.dark a:hover {
+    color: var(--vp-c-brand-lighter);
+}

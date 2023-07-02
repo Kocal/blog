@@ -6,12 +6,24 @@ tags:
 - database
 date: 2022-01-07
 summary: What happens with your Doctrine collections associations when using QueryBuilder::setMaxResults(), and how do we fix it?
+dependencies:
+  - PHP
+  - Doctrine
+proficiencyLevel: Beginner
 ---
 
+<script setup>
+import { useScriptTag } from '@vueuse/core';
+
+useScriptTag('https://platform.twitter.com/widgets.js')
+</script>
+
+# {{ $frontmatter.title }}
+
+<PostMeta class="mt-2" :date="$frontmatter.date" :tags="$frontmatter.tags" :lang="$frontmatter.lang" />
+
 ::: tip 
-
 This blog post is associated with some code that you can find [here](https://github.com/Kocal/blog/tree/main/posts-assets/2022-01-07-doctrine-setmaxresults-and-collections-associations-are-on-a-boat/demo-project).
-
 :::
 
 Today, we gonna talk about an issue with <abbr title="DataBase Managment System">DBMS</abbr>, [Doctrine](https://www.doctrine-project.org/), `QueryBuilder::setMaxResults()` and collections associations.
@@ -259,7 +271,7 @@ FROM (SELECT DISTINCT id_0, created_at_1
       ORDER BY created_at_1 ASC) dctrn_result
 LIMIT 1;
 ```
-Which returns : 
+Which returns: 
 | id\_0 |
 | :--- |
 | 1 |
@@ -341,6 +353,8 @@ echo count($pets[1]->getPictures()); // outputs "2"
 ::: tip
 Even if it looks like a good idea to keep the control, [@Ocramius](https://twitter.com/Ocramius) recommends to use the Doctrine's `Paginator`:
 
-<blockquote class="twitter-tweet" data-conversation="none" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">What&#39;s important is that:<br><br> * if you do a fetch-join, **DO** use the paginator<br> * if you don&#39;t do a fetch-join, setMaxResults() should suffice</p>&mdash; `replaces: *` (@Ocramius) <a href="https://twitter.com/Ocramius/status/1478684768288059392?ref_src=twsrc%5Etfw">January 5, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<ClientOnly>
+    <blockquote class="twitter-tweet" data-conversation="none" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">What&#39;s important is that:<br><br> * if you do a fetch-join, **DO** use the paginator<br> * if you don&#39;t do a fetch-join, setMaxResults() should suffice</p>&mdash; `replaces: *` (@Ocramius) <a href="https://twitter.com/Ocramius/status/1478684768288059392?ref_src=twsrc%5Etfw">January 5, 2022</a></blockquote>
+</ClientOnly>
 
 :::
