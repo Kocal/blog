@@ -2,7 +2,3 @@ node_modules/
 *.log
 .vitepress/dist
 .vitepress/cache
-
-# Panda
-styled-system
-styled-system-static
