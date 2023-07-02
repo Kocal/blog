@@ -8,7 +8,7 @@
 @tailwind utilities;
 
 :root {
-    --vp-c-brand: theme('colors.accent.500') !important;
+    --vp-c-brand: theme('colors.accent.600') !important;
     --vp-c-brand-light: theme('colors.accent.400') !important;
     --vp-c-brand-lighter: theme('colors.accent.300') !important;
 }
