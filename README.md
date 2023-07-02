@@ -4,7 +4,8 @@
 
 A technical blog based on [VitePress](https://vitepress.dev/):
 - using [TailwindCSS](https://tailwindcss.com/)
-- with a page for tags
-- ~~with a sitemap~~ (wip)
-- ~~with a RSS feed~~ (wip)
-- ~~comments with [Vssue](https://vssue.js.org/)~~ (wip)
+- with JSON-LD structured data
+- with a page for tags (and a page for each tag)
+- with a sitemap
+- ~~with a RSS feed~~ (was not providing so much value, but it can easily be added back by mimicking the sitemap generation)
+- ~~comments with [Vssue](https://vssue.js.org/)~~ (not fully compatible with Vue 3 yet)
