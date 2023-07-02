@@ -11,12 +11,9 @@
   "devDependencies": {
     "@heroicons/vue": "^2.0.18",
     "@tailwindcss/typography": "^0.5.9",
-    "@vssue/api-github-v3": "^1.4.7",
     "@vueuse/core": "^10.2.0",
     "autoprefixer": "^10.4.14",
-    "dayjs": "^1.10.4",
     "gray-matter": "^4.0.3",
-    "remove-markdown": "^0.3.0",
     "sitemap": "^7.1.1",
     "tailwindcss": "^3.3.2",
     "vitepress": "^1.0.0-beta.3"
