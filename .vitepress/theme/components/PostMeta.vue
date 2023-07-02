@@ -31,7 +31,7 @@ function formatDate(date: string) {
        </div>
        <div v-if="tags.length > 0" class="flex md:inline-flex items-center flex-wrap">
            <TagIcon class="h-5 mr-1"/>
-           <VPLink v-for="tag in tags" :key="tag" class="text-sm inline mr-2" :href="`/tags?t=${tag}`">
+           <VPLink v-for="tag in tags" :key="tag" class="text-sm inline mr-2" :href="`/tags/${tag}.html`">
                {{ tag }}
            </VPLink>
        </div>

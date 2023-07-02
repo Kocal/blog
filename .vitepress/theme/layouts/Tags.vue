@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {data as posts} from '../posts.data';
 import Posts from "../components/Posts.vue";
-import {useTitle, useUrlSearchParams} from "@vueuse/core";
-import {computed, watch} from 'vue';
+import {useTitle} from "@vueuse/core";
+import {computed} from 'vue';
 import {useData} from "vitepress";
 
-const {frontmatter, site} = useData();
+const {frontmatter, site, params} = useData();
 
 const tags = posts.reduce((acc, post) => {
     post.tags.forEach(tag => {
@@ -19,25 +19,19 @@ const tags = posts.reduce((acc, post) => {
     return acc;
 }, {} as Record<string, number>);
 
-const urlSearchParams = useUrlSearchParams<{ t: string | undefined }>('history');
+const tag = computed(() => params.value?.tag);
+
 const filteredPosts = computed(() => {
-    if (urlSearchParams.t) {
-        return posts.filter(post => post.tags.includes(urlSearchParams.t));
+    if (tag.value) {
+        return posts.filter(post => post.tags.includes(tag.value));
     }
 
     return posts;
 });
 
-watch(() => urlSearchParams, () => {
-    if (urlSearchParams.t) {
-        useTitle(`${frontmatter.value.title} (${urlSearchParams.t}) | ${site.value.title}`);
-    } else {
-        useTitle(`${frontmatter.value.title} | ${site.value.title}`);
-    }
-}, {
-    deep: true,
-    immediate: true,
-});
+if (tag.value) {
+    useTitle(`Posts by tag "${tag.value}" | ${site.value.title}`)
+}
 </script>
 
 <template>
@@ -45,7 +39,7 @@ watch(() => urlSearchParams, () => {
         <ul class="!list-none !p-0">
             <li v-for="(count, tag) in tags" :key="tag"
                 class="inline-block rounded-full !m-0 !mr-2 !mb-2 cursor-pointer bg-accent-500">
-                <a :href="`/tags?t=${tag}`" @click.prevent="urlSearchParams.t = tag"
+                <a :href="`/tags/${tag}.html`"
                    class="block p-2 !no-underline !text-white/95">
                     {{ tag }} ({{ count }})
                 </a>
