@@ -10,9 +10,10 @@ export default {
     ).sort();
 
     const tags = new Set<string>();
-    const posts = postsFiles.map((file) => {
+    postsFiles.forEach((file) => {
       const { data } = matter.read(file);
       const tagsInPost = data.tags as Array<string>;
+
       tagsInPost.forEach((tag) => tags.add(tag));
     });
 
