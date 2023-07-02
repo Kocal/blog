@@ -1,6 +1,11 @@
 import { defineConfig } from 'vitepress'
+import { createWriteStream } from 'node:fs'
+import { resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import {getJSONLD} from "./theme/json-ld.js";
+import {SitemapStream} from "sitemap";
+
+const sitemapLinks = [];
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -25,22 +30,24 @@ export default defineConfig({
         pattern: 'https://github.com/kocal/blog/tree/main/:path',
     }
   },
-  async transformPageData(pageData, context) {
-    return {
-      frontmatter: {
-        ...pageData.frontmatter,
-        head: [
-          ["script", {type: "application/ld+json"}, JSON.stringify(await getJSONLD(pageData, context))],
-        ],
-      },
-    };
+  transformHtml(html, id, { pageData }) {
+    if (['README.md', 'index.md'].includes(pageData.relativePath) || /[\\/]404\.html$/.test(id) || id.includes('/posts-assets/')) {
+      return;
+    }
+
+    sitemapLinks.push({
+      url: pageData.relativePath.replace(/\/index\.md$/, '/').replace(/\.md$/, '.html'),
+      lastmod: pageData.lastUpdated
+    })
   },
   markdown: {
     anchor: {
       level: [2, 3, 4, 5, 6],
     }
   },
+  lastUpdated: true,
   head: [
+    ['link', { rel: "sitemap", type: "application/xml", href: "/sitemap.xml" }],
     ['link', { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" }],
     ['link', { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" }],
     ['link', { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" }],
@@ -60,6 +67,27 @@ export default defineConfig({
       gtag('config', 'G-Z8KN175TJZ');`,
     ],
   ],
+
+  async transformPageData(pageData, context) {
+    return {
+      frontmatter: {
+        ...pageData.frontmatter,
+        head: [
+          ["script", {type: "application/ld+json"}, JSON.stringify(await getJSONLD(pageData, context))],
+        ],
+      },
+    };
+  },
+  async buildEnd({outDir}) {
+    const sitemap = new SitemapStream({
+      hostname: 'https://hugo.alliau.me'
+    })
+    const writeStream = createWriteStream(resolve(outDir, 'sitemap.xml'))
+    sitemap.pipe(writeStream)
+    sitemapLinks.forEach((link) => sitemap.write(link))
+    sitemap.end()
+    await new Promise((r) => writeStream.on('finish', r))
+  },
   vite: {
     resolve: {
       alias: [
