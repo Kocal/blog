@@ -9,9 +9,12 @@ const sitemapLinks = [];
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Hugo Alliaume",
+  title: "My Personal Blog",
+  titleTemplate: ":title • Hugo Alliaume",
   description: "My Personal Blog",
+  lang: "en",
   themeConfig: {
+    siteTitle: "Hugo Alliaume's Blog",
     nav: [
       { text: 'Tags', link: '/tags' },
     ],
@@ -26,24 +29,19 @@ export default defineConfig({
       copyright: 'Copyright © 2021-present Hugo Alliaume',
     },
     editLink: {
-        text: 'Edit this page on GitHub',
-        pattern: 'https://github.com/kocal/blog/tree/main/:path',
-    }
-  },
-  transformHtml(html, id, { pageData }) {
-    if (['README.md', 'index.md'].includes(pageData.relativePath) || /[\\/]404\.html$/.test(id) || id.includes('/posts-assets/')) {
-      return;
-    }
-
-    sitemapLinks.push({
-      url: pageData.relativePath.replace(/\/index\.md$/, '/').replace(/\.md$/, '.html'),
-      lastmod: pageData.lastUpdated
-    })
+      text: 'Edit this page on GitHub',
+      pattern: 'https://github.com/kocal/blog/tree/main/:path',
+    },
   },
   markdown: {
+    theme: {
+      light: 'solarized-light',
+      dark: 'solarized-dark',
+    },
+    lineNumbers: true,
     anchor: {
       level: [2, 3, 4, 5, 6],
-    }
+    },
   },
   lastUpdated: true,
   head: [
@@ -67,7 +65,18 @@ export default defineConfig({
       gtag('config', 'G-Z8KN175TJZ');`,
     ],
   ],
+  transformHtml(html, id, { pageData }) {
+    if (['README.md', 'index.md'].includes(pageData.relativePath) || /[\\/]404\.html$/.test(id) || id.includes('/posts-assets/')) {
+      return;
+    }
 
+    sitemapLinks.push({
+      url: pageData.relativePath
+          .replace(/\/index\.md$/, '/')
+          .replace(/\.md$/, ''),
+      lastmod: pageData.lastUpdated
+    })
+  },
   async transformPageData(pageData, context) {
     return {
       frontmatter: {
