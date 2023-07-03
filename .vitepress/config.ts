@@ -100,6 +100,13 @@ export default defineConfig({
     sitemap.end();
     await new Promise((r) => writeStream.on('finish', r));
   },
+  vue: {
+    template: {
+      transformAssetUrls: {
+        Image: ['src'],
+      },
+    },
+  },
   vite: {
     plugins: [
       imagetools({
