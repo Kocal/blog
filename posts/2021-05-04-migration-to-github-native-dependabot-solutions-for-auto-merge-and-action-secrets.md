@@ -22,7 +22,7 @@ Dependabot Preview ([dependabot.com](https://dependabot.com/)) - which [was acqu
 in favor of [the GitHub-native Dependabot](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically).
 
 One week ago, we started to see many pull requests from Dependabot across our organization's repositories:
-![Pull request for upgrading to GitHub-native Dependabot](./2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets-assets/dependabot-pr.png)
+<Image src="./2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets-assets/dependabot-pr.png" alt="Pull request for upgrading to GitHub-native Dependabot" loading="eager" width="931" height="911" />
 
 This is very nice, an automated pull request that migrates our [legacy non-native configuration file](https://dependabot.com/docs/config-file/) to the
 [new format `v2`](https://docs.github.com/en/code-security/supply-chain-security/configuration-options-for-dependency-updates). What could go wrong? **This:**
@@ -318,7 +318,7 @@ The new pull requests from Dependabot **will be automatically approved and merge
 ...
 
 Wait what? It's red, what happens?? :boom: :rotating_light:
-![Failed GitHub checks](./2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets-assets/checks-all-red.png)
+<Image src="./2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets-assets/checks-all-red.png" alt="Failed GitHub checks" width="922" height="605" />
 
 ## Share your secrets with Dependabot
 
@@ -405,7 +405,7 @@ That's it, we updated our workflow file that supports both:
 
 After pushing your changes, Dependabot pull requests will now have access to secrets, and your checks should be green :green_heart::
 
-![Successful GitHub checks](./2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets-assets/checks-all-green.png)
+<Image src="./2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets-assets/checks-all-green.png" alt="Successful GitHub checks" width="538" height="399" />
 
 ## Conclusion
 
@@ -416,10 +416,10 @@ In this article, we were able to auto-merge Dependabot pull requests again:
 - we let Dependabot access our workflow secrets again, by using `on: pull_request_target` **and** limiting the jobs to the Dependabot user only
 
 <figure>
-  <img 
+  <Image 
     src="./2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets-assets/auto-approve-and-merge.png" 
     alt="Illustration of auto-approve and auto-merge a Dependabot pull request"
-  >
+  />
   <figcaption><em>Our bot "yprox" approving the pull-request and saying Dependabot to merge</em></figcaption>
 </figure>
 
@@ -430,9 +430,11 @@ But that's over, I was able to get it working some hours ago, and I'm **so happy
 I wanted to share my problems and solutions to the community, but also to my team to explain them what I've done those last days and what changed with Dependabot.
 
 <figure>
-  <img 
+  <Image 
     src="./2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets-assets/merged-dependabot-prs.png" 
     alt="List of auto-merged GitHub-native Dependabot pull requests"
-  >
+    width="572"
+    height="373"
+  />
   <figcaption><em>List of some last auto-merged GitHub-native Dependabot pull requests </em></figcaption>
 </figure>

@@ -2,6 +2,7 @@
 import './style.css';
 import { Theme as TypeTheme } from 'vitepress';
 import DefaultTheme from 'vitepress/theme';
+import Image from './components/Image.vue';
 import PostSummary from './components/PostSummary.vue';
 import PostMeta from './components/PostMeta.vue';
 import LayoutTags from './layouts/Tags.vue';
@@ -16,5 +17,6 @@ export default {
     app.component('LayoutTags', LayoutTags);
     app.component('PostSummary', PostSummary);
     app.component('PostMeta', PostMeta);
+    app.component('Image', Image);
   },
 } as TypeTheme;
