@@ -24,11 +24,13 @@ a:hover {
 }
 
 html.dark .link,
-html.dark a {
+html.dark a,
+html.dark .vp-doc a > code {
   color: var(--vp-c-brand-light);
 }
 
 html.dark .link:hover,
-html.dark a:hover {
+html.dark a:hover,
+html.dark .vp-doc a:hover > code {
   color: var(--vp-c-brand-lighter);
 }
