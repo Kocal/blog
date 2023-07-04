@@ -22,7 +22,7 @@ const dateTimeFormatter = new Intl.DateTimeFormat(lang.value, {
 });
 
 function formatDate(date: string) {
-  return dateTimeFormatter.format(new Date(date), {});
+  return dateTimeFormatter.format(new Date(date));
 }
 </script>
 
