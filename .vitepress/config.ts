@@ -119,7 +119,7 @@ export default defineConfig({
       alias: [
         {
           find: /^.*\/VPHome\.vue$/,
-          replacement: fileURLToPath(new URL('./theme/layouts/Home.vue', import.meta.url)),
+          replacement: fileURLToPath(new URL('./theme/layouts/VPHome.vue', import.meta.url)),
         },
       ],
     },
