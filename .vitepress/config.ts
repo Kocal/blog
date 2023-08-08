@@ -72,16 +72,6 @@ export default defineConfig({
       gtag('config', 'G-Z8KN175TJZ');`,
     ],
   ],
-  transformHtml(html, id, { pageData }) {
-    if (['index.md'].includes(pageData.relativePath) || /[\\/]404\.html$/.test(id)) {
-      return;
-    }
-
-    sitemapLinks.push({
-      url: pageData.relativePath.replace(/\/index\.md$/, '/').replace(/\.md$/, ''),
-      lastmod: pageData.lastUpdated,
-    });
-  },
   async transformPageData(pageData, context) {
     return {
       frontmatter: {
@@ -90,15 +80,9 @@ export default defineConfig({
       },
     };
   },
-  async buildEnd({ outDir }) {
-    const sitemap = new SitemapStream({
-      hostname: 'https://hugo.alliau.me',
-    });
-    const writeStream = createWriteStream(resolve(outDir, 'sitemap.xml'));
-    sitemap.pipe(writeStream);
-    sitemapLinks.forEach((link) => sitemap.write(link));
-    sitemap.end();
-    await new Promise((r) => writeStream.on('finish', r));
+  sitemap: {
+    hostname: 'https://hugo.alliau.me',
+    lastmodDateOnly: false,
   },
   vue: {
     template: {
