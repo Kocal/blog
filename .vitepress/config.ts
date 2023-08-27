@@ -111,6 +111,7 @@ export default defineConfig({
   },
   async buildEnd({ outDir }) {
     console.log('Generating RSS feed...');
+    feed.items.sort((a, b) => b.date.getTime() - a.date.getTime());
     const writeStream = createWriteStream(resolve(outDir, 'rss.xml'));
     writeStream.write(feed.rss2());
     await new Promise((r) => writeStream.on('finish', r));
