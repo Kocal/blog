@@ -3,10 +3,21 @@ import { createWriteStream } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath, URL } from 'node:url';
 import { getJSONLD } from './theme/json-ld.js';
-import { SitemapStream } from 'sitemap';
 import { imagetools } from 'vite-imagetools';
+import { Feed } from 'feed';
 
-const sitemapLinks = [];
+const feed = new Feed({
+  title: "Hugo Alliaume's Blog",
+  description: 'My Personal Blog',
+  id: 'https://hugo.alliau.me/',
+  link: 'https://hugo.alliau.me/',
+  language: 'en',
+  copyright: 'Hugo Alliaume',
+  author: {
+    name: 'Hugo Alliaume',
+    email: 'hugo@alliau.me',
+  },
+});
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -72,6 +83,20 @@ export default defineConfig({
       gtag('config', 'G-Z8KN175TJZ');`,
     ],
   ],
+  transformHtml(html, id, { pageData }) {
+    if (['index.md'].includes(pageData.relativePath) || /[\\/]404\.html$/.test(id)) {
+      return;
+    }
+
+    if (/^posts/.test(pageData.relativePath)) {
+      feed.addItem({
+        link: pageData.relativePath.replace(/\/index\.md$/, '/').replace(/\.md$/, ''),
+        title: pageData.title,
+        description: pageData.description,
+        date: new Date(pageData.frontmatter.date),
+      });
+    }
+  },
   async transformPageData(pageData, context) {
     return {
       frontmatter: {
@@ -83,6 +108,13 @@ export default defineConfig({
   sitemap: {
     hostname: 'https://hugo.alliau.me',
     lastmodDateOnly: false,
+  },
+  async buildEnd({ outDir }) {
+    console.log('Generating RSS feed...');
+    const writeStream = createWriteStream(resolve(outDir, 'rss.xml'));
+    writeStream.write(feed.rss2());
+    await new Promise((r) => writeStream.on('finish', r));
+    console.log('Ok');
   },
   vue: {
     template: {

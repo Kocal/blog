@@ -8,5 +8,5 @@ A technical blog based on [VitePress](https://vitepress.dev/):
 - with JSON-LD structured data
 - with a page for tags (and a page for each tag)
 - with a sitemap
-- ~~with a RSS feed~~ (was not providing so much value, but it can easily be added back by mimicking the sitemap generation)
+- with a RSS feed
 - comments with [Giscus](https://giscus.app/)
