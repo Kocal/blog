@@ -3,9 +3,10 @@ title: 'Generate PDFs on Amazon AWS with PHP and Puppeteer: The Best Way'
 tags:
   - php
   - node.js
-  - aws
+  - amazon-aws
   - chrome
   - browsershot
+  - puppeteer
 date: 2020-04-21
 summary: Create a bridge around chrome-aws-lambda, reducing maintenance and working time and exhaust.
 dependencies:

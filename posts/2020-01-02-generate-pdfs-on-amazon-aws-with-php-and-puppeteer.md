@@ -3,9 +3,10 @@ title: Generate PDFs on Amazon AWS with PHP and Puppeteer
 tags:
   - php
   - node.js
-  - aws
+  - amazon-aws
   - chrome
   - browsershot
+  - puppeteer
 date: 2020-01-02
 summary: Using Browsershot and Puppeteer to generate PDFs on Amazon AWS Lambda.
 dependencies:

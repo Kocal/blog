@@ -14,7 +14,9 @@ export default {
       const { data } = matter.read(file);
       const tagsInPost = data.tags as Array<string>;
 
-      tagsInPost.forEach((tag) => tags.add(tag));
+      for (const tag of tagsInPost) {
+        tags.add(tag);
+      }
     });
 
     return Array.from(tags).map((tag) => ({

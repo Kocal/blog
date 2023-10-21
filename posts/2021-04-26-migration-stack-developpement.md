@@ -2,11 +2,12 @@
 lang: 'fr'
 title: Migration de notre stack de développement vers Docker
 tags:
-  - virtual machine
+  - virtual-machine
   - docker
-  - symfony cli
+  - symfony-cli
   - php
   - node.js
+  - makefile
 date: 2021-04-26
 summary: Pourquoi et comment migrer des machines virtuelles à de l'hybride et containers Docker.
 dependencies:
