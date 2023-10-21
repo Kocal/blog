@@ -1,13 +1,15 @@
 <script setup>
 import DefaultTheme from 'vitepress/theme';
 import { default as Giscus } from '@giscus/vue';
+import { useData } from 'vitepress';
 
+const { frontmatter } = useData();
 const { Layout } = DefaultTheme;
 </script>
 
 <template>
   <Layout>
-    <template #doc-after>
+    <template v-if="frontmatter.$layout !== 'tag'" #doc-after>
       <Giscus
         repo="Kocal/blog"
         repo-id="MDEwOlJlcG9zaXRvcnkyMzEyNTQzNjM="
