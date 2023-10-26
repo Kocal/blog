@@ -178,7 +178,7 @@ Avec ce constat, je me suis dit qu'on pouvait tenter une stack hybride :
 
 ## Symfony CLI :sparkles:
 
-[Symfony CLI](https://github.com/symfony/cli) est un outil écrit en Go et qui a notamment remplacé l'ancien [Symfony WebServerBundle](https://github.com/symfony/web-server-bundle).
+[Symfony CLI](https://github.com/symfony-cli/symfony-cli) est un outil écrit en Go et qui a notamment remplacé l'ancien [Symfony WebServerBundle](https://github.com/symfony/web-server-bundle).
 On l'utilise déjà sur nos CI pour lancer un serveur web pour nos tests E2E avec [Cypress](https://www.cypress.io/).
 
 Mais ce n'est pas tout. Symfony CLI est un outil surboosté aux vitamines avec d'incroyables fonctionnalités permettant de régler plusieurs problématiques :
@@ -188,18 +188,23 @@ Mais ce n'est pas tout. Symfony CLI est un outil surboosté aux vitamines avec d
 - on peut définir [des noms de domaines grâce à un proxy local](https://symfony.com/doc/current/setup/symfony_server.html#setting-up-the-local-proxy), bye Landrush :wave:
 - on peut [configurer PHP via un `php.ini`](https://symfony.com/doc/current/setup/symfony_server.html#overriding-php-config-options-per-project) , super pratique pour configurer la timezone ou activer/désactiver XDebug,
 - on peut [configurer la version de PHP](https://symfony.com/doc/current/setup/symfony_server.html#selecting-a-different-php-version) à utiliser via un fichier `.php-version`
-  ::: tip
-  Ça veut dire qu'il faut utiliser le binaire `symfony` pour exécuter des commandes/binaires avec la bonne version de PHP :
+
+::: tip
+Ça signifie qu'il faut utiliser le binaire `symfony` pour exécuter des commandes/binaires avec la bonne version de PHP :
+
 - PHP via `symfony php` (ex : `symfony php bin/phpstan analyze`)
 - Composer via `symfony composer` (ex : `symfony composer install`)
 - La console Symfony avec le raccourci `symfony console` (ex : `symfony console cache:clear`)
-  :::
+
+:::
+
 - et le plus exceptionnel, une [intégration avec Docker](https://symfony.com/doc/current/setup/symfony_server.html#docker-integration) qui permet de définir automatiquement des variables
   d'environnement en fonction des containers. Si on utilise un container pour une base de données, alors `DATABASE_URL` sera automatiquement définie **et c'est PARFAIT pour nous !** :heart_eyes:
-  ::: warning
-  Le binaire `symfony` utilisera **toujours** les variables d'environnement détectées via Docker et ignorera les variables d'environnement locales.
 
-Cela veut dire que les variables d'environnement `DATABASE_URL`, `REDIS_URL`, etc... définies dans vos `.env` ou `.env.test` **ne seront pas utilisées**.
+::: warning
+Le binaire `symfony` utilisera **toujours** les variables d'environnement détectées via Docker et ignorera les variables d'environnement locales.
+
+Cela veut dire que les variables d'environnement `DATABASE_URL`, `REDIS_URL`, etc... définies dans vos `.env` ou `.env.local` **ne seront pas utilisées**.
 :::
 
 ## Docker
