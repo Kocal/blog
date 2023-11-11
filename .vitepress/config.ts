@@ -91,7 +91,7 @@ export default defineConfig({
 
     if (/^posts/.test(pageData.relativePath)) {
       feed.addItem({
-        link: pageData.relativePath.replace(/\/index\.md$/, '/').replace(/\.md$/, ''),
+        link: pageData.relativePath.replace(/\/index\.md$/, '/').replace(/\.md$/, '.html'),
         title: pageData.title,
         description: pageData.description,
         date: new Date(pageData.frontmatter.date),
@@ -102,7 +102,18 @@ export default defineConfig({
     return {
       frontmatter: {
         ...pageData.frontmatter,
-        head: [['script', { type: 'application/ld+json' }, JSON.stringify(await getJSONLD(pageData, context))]],
+        head: [
+          [
+            'link',
+            {
+              rel: 'canonical',
+              href: `https://hugo.alliau.me/${pageData.relativePath
+                .replace(/index\.md$/, '')
+                .replace(/\.md$/, '.html')}`,
+            },
+          ],
+          ['script', { type: 'application/ld+json' }, JSON.stringify(await getJSONLD(pageData, context))],
+        ],
       },
     };
   },
