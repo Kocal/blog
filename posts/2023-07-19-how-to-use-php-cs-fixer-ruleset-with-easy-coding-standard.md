@@ -13,7 +13,9 @@ dependencies:
 proficiencyLevel: Beginner
 ---
 
-# How to use PHP-CS-Fixer ruleset with Easy Coding Standard
+# {{ $frontmatter.title }}
+
+<PostMeta class="mt-2" :date="$frontmatter.date" :tags="$frontmatter.tags" :lang="$frontmatter.lang" />
 
 This post is a quick guide on how to use the [`@Symfony` ruleset from PHP CS Fixer](https://cs.symfony.com/doc/ruleSets/Symfony.html) with [Easy Coding Standard](https://github.com/easy-coding-standard/easy-coding-standard), since this ruleset is not shipped anymore with ECS.
 
