@@ -3,7 +3,7 @@ import './style.css';
 import { Theme as TypeTheme } from 'vitepress';
 import DefaultTheme from 'vitepress/theme';
 import Image from './components/Image.vue';
-import PostSummary from './components/PostSummary.vue';
+import PostSummary from './components/PostDescription.vue';
 import PostMeta from './components/PostMeta.vue';
 import LayoutTags from './layouts/Tags.vue';
 import Layout from './layouts/Layout.vue';

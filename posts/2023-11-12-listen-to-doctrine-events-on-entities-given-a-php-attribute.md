@@ -7,7 +7,7 @@ tags:
   - doctrine
   - doctrine entity listener
 date: 2023-11-12
-summary: Learn how to listen to Doctrine events thanks to a PHP attribute.
+description: Learn how to listen to Doctrine events thanks to a PHP attribute.
 dependencies:
   - PHP
   - Symfony

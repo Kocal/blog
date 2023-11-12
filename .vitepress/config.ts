@@ -113,6 +113,11 @@ export default defineConfig({
             },
           ],
           ['script', { type: 'application/ld+json' }, JSON.stringify(await getJSONLD(pageData, context))],
+          ...(/^posts/.test(pageData.relativePath)
+            ? [
+                // ['meta', {name: 'truc', content: 'foo'}],
+              ]
+            : []),
         ],
       },
     };

@@ -9,7 +9,7 @@ tags:
   - node.js
   - makefile
 date: 2021-04-26
-summary: Pourquoi et comment migrer des machines virtuelles à de l'hybride et containers Docker.
+description: Pourquoi et comment migrer des machines virtuelles à de l'hybride et containers Docker.
 dependencies:
   - Docker
   - Symfony CLI

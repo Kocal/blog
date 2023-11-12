@@ -3,7 +3,7 @@ import { Post } from '../posts.data';
 import { toRefs } from 'vue';
 import VPLink from 'vitepress/dist/client/theme-default/components/VPLink.vue';
 import PostMeta from './PostMeta.vue';
-import PostSummary from './PostSummary.vue';
+import PostDescription from './PostDescription.vue';
 
 const props = defineProps<{ post: Post }>();
 const { post } = toRefs(props);
@@ -19,7 +19,7 @@ const { post } = toRefs(props);
       </h2>
     </header>
 
-    <PostSummary :summary="post.summary" />
+    <PostDescription :description="post.description" />
 
     <footer>
       <PostMeta :date="post.date.iso" :tags="post.tags" :lang="post.lang" />

@@ -6,7 +6,7 @@ tags:
   - dependencies
   - continuous-integration
 date: 2021-05-04
-summary: Solutions for re-enabling auto-merging and secrets Action after migrating to GitHub-native Dependabot.
+description: Solutions for re-enabling auto-merging and secrets Action after migrating to GitHub-native Dependabot.
 dependencies:
   - GitHub
   - Dependabot

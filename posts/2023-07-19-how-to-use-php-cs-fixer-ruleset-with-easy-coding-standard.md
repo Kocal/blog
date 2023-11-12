@@ -5,7 +5,7 @@ tags:
   - php-cs-fixer
   - easy-coding-standard
 date: 2023-07-19
-summary: How can we configure Easy Coding Standard to use PHP CS Fixer ruleset?
+description: How can we configure Easy Coding Standard to use PHP CS Fixer ruleset?
 dependencies:
   - PHP
   - PHP CS Fixer

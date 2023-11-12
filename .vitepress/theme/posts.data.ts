@@ -8,7 +8,7 @@ export interface Post {
     string: string;
     iso: string;
   };
-  summary: string;
+  description: string;
   tags: Array<string>;
   lang: string | undefined;
   dependencies: Array<string>;
@@ -25,7 +25,7 @@ export default createContentLoader('posts/*.md', {
       .map(({ url, frontmatter, excerpt }) => ({
         url,
         title: frontmatter.title,
-        summary: frontmatter.summary,
+        description: frontmatter.description,
         date: formatDate(frontmatter.date, frontmatter.lang),
         tags: frontmatter.tags,
         lang: frontmatter.lang,

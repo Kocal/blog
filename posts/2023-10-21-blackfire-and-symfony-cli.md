@@ -6,7 +6,7 @@ tags:
   - blackfire
   - profiling
 date: 2023-10-21
-summary: Discover how to easily profile Symfony Commands and cURL HTTP requests with Blackfire when your project uses Symfony CLI.
+description: Discover how to easily profile Symfony Commands and cURL HTTP requests with Blackfire when your project uses Symfony CLI.
 dependencies:
   - PHP
   - Symfony CLI
