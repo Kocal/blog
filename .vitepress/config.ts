@@ -115,14 +115,14 @@ export default defineConfig({
           ['script', { type: 'application/ld+json' }, JSON.stringify(await getJSONLD(pageData, context))],
           ...(/^posts/.test(pageData.relativePath)
             ? [
-                ['meta', { name: 'og:url', content: url }],
-                ['meta', { name: 'og:type', content: 'website' }],
-                ['meta', { name: 'og:title', content: pageData.title }],
-                ['meta', { name: 'og:description', content: pageData.description }],
+                ['meta', { property: 'og:url', content: url }],
+                ['meta', { property: 'og:type', content: 'website' }],
+                ['meta', { property: 'og:title', content: pageData.title }],
+                ['meta', { property: 'og:description', content: pageData.description }],
 
                 ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-                ['meta', { name: 'twitter:domain', content: 'hugo.alliau.me' }],
-                ['meta', { name: 'twitter:url', content: url }],
+                ['meta', { property: 'twitter:domain', content: 'hugo.alliau.me' }],
+                ['meta', { property: 'twitter:url', content: url }],
                 ['meta', { name: 'twitter:title', content: pageData.title }],
                 ['meta', { name: 'twitter:description', content: pageData.description }],
               ]
