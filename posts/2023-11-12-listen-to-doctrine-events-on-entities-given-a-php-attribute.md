@@ -19,7 +19,7 @@ proficiencyLevel: Expert
 
 ## A Bit of Context...
 
-At [Wamiz](https://wamiz.co.uk/), we started working on a proof of concept (POC) to implement [Meilisearch](meilisearch.com/) to offer our users a search engine, topic suggestions, etc.
+At [Wamiz](https://wamiz.co.uk/), we started working on a proof of concept (POC) to implement [Meilisearch](https://meilisearch.com/) to offer our users a search engine, topic suggestions, etc.
 
 Meilisearch needs to be fed with data from our database and updated based on changes to our Doctrine entities. Therefore, we need to:
 
