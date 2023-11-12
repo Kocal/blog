@@ -99,6 +99,8 @@ export default defineConfig({
     }
   },
   async transformPageData(pageData, context) {
+    const url = `https://hugo.alliau.me/${pageData.relativePath.replace(/index\.md$/, '').replace(/\.md$/, '.html')}`;
+
     return {
       frontmatter: {
         ...pageData.frontmatter,
@@ -107,15 +109,22 @@ export default defineConfig({
             'link',
             {
               rel: 'canonical',
-              href: `https://hugo.alliau.me/${pageData.relativePath
-                .replace(/index\.md$/, '')
-                .replace(/\.md$/, '.html')}`,
+              href: url,
             },
           ],
           ['script', { type: 'application/ld+json' }, JSON.stringify(await getJSONLD(pageData, context))],
           ...(/^posts/.test(pageData.relativePath)
             ? [
-                // ['meta', {name: 'truc', content: 'foo'}],
+                ['meta', { name: 'og:url', content: url }],
+                ['meta', { name: 'og:type', content: 'website' }],
+                ['meta', { name: 'og:title', content: pageData.title }],
+                ['meta', { name: 'og:description', content: pageData.description }],
+
+                ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+                ['meta', { name: 'twitter:domain', content: 'hugo.alliau.me' }],
+                ['meta', { name: 'twitter:url', content: url }],
+                ['meta', { name: 'twitter:title', content: pageData.title }],
+                ['meta', { name: 'twitter:description', content: pageData.description }],
               ]
             : []),
         ],
