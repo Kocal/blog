@@ -1,5 +1,5 @@
 ---
-title: Listen to Doctrine events on entities given a PHP attribute
+title: Listen to Doctrine Events on Entities Using a PHP Attribute
 tags:
   - php
   - php attribute
@@ -17,22 +17,17 @@ proficiencyLevel: Expert
 
 # {{ $frontmatter.title }}
 
-<PostMeta class="mt-2" :date="$frontmatter.date" :tags="$frontmatter.tags" :lang="$frontmatter.lang" />
+## A Bit of Context...
 
-## Un peu de contexte...
+At [Wamiz](https://wamiz.co.uk/), we started working on a proof of concept (POC) to implement [Meilisearch](meilisearch.com/) to offer our users a search engine, topic suggestions, etc.
 
-Chez [Wamiz](https://wamiz.co.uk/), on a commencé à travailler sur un POC de mise en place de [Meilisearch](meilisearch.com/) afin de proposer
-à nos utilisateurs un moteur de recherche, une suggestion de topics similaires, etc.
+Meilisearch needs to be fed with data from our database and updated based on changes to our Doctrine entities. Therefore, we need to:
 
-Meilisearch doit être alimenté avec les données de notre base de données, et doit être mis à jour en fonction des modifications de nos entités Doctrine.
-Pour cela, il faut donc :
+1. Identify the Doctrine entities to index
+2. Automatically index/unindex Doctrine entities based on their lifecycle
+3. As a bonus, handle the initial indexing of our existing Doctrine entities
 
-1. Identifier les entités Doctrine à indexer
-2. Indéxer/désindexer automatiquement les entités Doctrine en fonction de leur cycle de vie
-3. En bonus, gérer l'indexation initiale de nos entités Doctrine déjà existantes
-
-Ayant déjà utilisé le [AlgoliaSearchBundle](https://github.com/algolia/search-bundle), j'avais déjà pas mal d'expérience sur ces différentes problématiques,
-et qu'elles pouvaient être résolues en partie avec une telle configuration :
+Having previously used the [AlgoliaSearchBundle](https://github.com/algolia/search-bundle), I had experience with these issues, and I knew they could be partially solved with a configuration like this:
 
 ```yaml
 algolia_search:
@@ -42,14 +37,14 @@ algolia_search:
       index_if: isPublished
 ```
 
-C'est simple à comprendre, ça permet de déclarer les entités à indexer de manière centralisée, ça permet de contrôler quelles sont les entités à écouter, mais :
+It's easy to understand, allows centralized declaration of entities to index, and provides control over which entities to listen to. However:
 
-- Ça utilise du YAML :disappointed:
-- Il n'y a pas/peu d'auto-complétion ou de validation
-- Je souhaite que la configuration se fasse dans le code nos entités Doctrine (le plus proche du code possible), et non pas dans un fichier de configuration
-- Puis... on est en 2023, je veux enfin écrire un attribut PHP :eyes:
+- It uses YAML 😞
+- There is little to no auto-completion or validation
+- I want the configuration to be in the code of our Doctrine entities (as close to the code as possible), not in a configuration file
+- It's 2023, and I finally want to write a PHP attribute! 👀
 
-Avec un attribut PHP, nommé `IndexableEntity` que l'on va créer plus tard, on pourra faire quelque chose comme ça :
+With a PHP attribute named `IndexableEntity` that we will create later, we can do something like this:
 
 ```php
 <?php
@@ -60,7 +55,7 @@ Avec un attribut PHP, nommé `IndexableEntity` que l'on va créer plus tard, on 
 #[IndexableEntity(
     index: 'posts',
     indexIf: 'isPublished',
-    # Est utilisé pour l'indexation initiale, non traitée dans ce blog post
+    # Used for initial indexing, not covered in this blog post
     initialDataCriteria: [PostRepository::class, 'createMeilisearchIndexableCriteria'],
 )]
 class Post
@@ -69,20 +64,20 @@ class Post
 }
 ```
 
-Et cela permettrait facilement de :
+And this would easily allow us to:
 
-- Déclarer les entités à indexer de manière décentralisée
-- Avoir une auto-complétion et une validation de la configuration (grâce à PHPStan)
+- Declare entities to index in a decentralized manner
+- Have auto-completion and configuration validation (thanks to PHPStan)
 
-## Création de l'attribut PHP
+## Creating the PHP Attribute
 
-Notre attribut PHP permettra de :
+Our PHP attribute will:
 
-- Définir l'index Meilisearch dans lequel l'entité sera indexée
-- Définir une méthode à appeler pour savoir si l'entité est indexable
-- Définir un callback pour récupérer les données initiales à indexer (ex : si on ne souhaite pas indexer des entités créées il y a plus de N années)
+- Define the Meilisearch index in which the entity will be indexed
+- Define a method to call to check if the entity is indexable
+- Define a callback to retrieve the initial data to index (e.g., if we don't want to index entities created more than N years ago)
 
-Pour créer un attribut PHP, il faut créer une classe annotée portant l'attribut `#[Attribute]`.
+To create a PHP attribute, we need to create an annotated class with the `#[Attribute]` attribute.
 
 ```php
 <?php
@@ -92,10 +87,10 @@ declare(strict_types=1);
 namespace App\Meilisearch\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final readonly class IndexableEntity
+final class IndexableEntity
 {
     /**
-     * @param string        $index               A Meilisearch index, where the entity will be indexed
+     * @param string        $index               A Meilisearch index where the entity will be indexed
      * @param string|null   $indexIf             A method name to call to check if the entity is indexable (if null, the entity is always indexable)
      * @param callable|null $initialDataCriteria A callback to retrieve the initial data to index
      */
@@ -111,22 +106,21 @@ final readonly class IndexableEntity
 }
 ```
 
-## Écouter les modifications sur nos entités Doctrine portant l'attribut `IndexableEntity`
+## Listening to Changes on Doctrine Entities with the `IndexableEntity` Attribute
 
-Il y a plusieurs solutions pour écouter les modifications sur nos entités Doctrine portant l'attribut `IndexableEntity` :
+There are several solutions to listen to changes on Doctrine entities with the `IndexableEntity` attribute:
 
-1. Utiliser une [CompilerPass](https://symfony.com/doc/current/service_container/compiler_passes.html),
-   mais ça ne fonctionnera pas tout simplement parce que nos entités ne sont pas enregistrées dans le Container Symfony (et heureusement)
-2. Utiliser un [Doctrine Lifecycle Listener](https://symfony.com/doc/current/doctrine/events.html#doctrine-lifecycle-listeners),
-   c'est une solution que je n'ai pas choisie, car je ne souhaitais pas utiliser un listener qui allait écouter **tous** les événements
-   Doctrine sur **toutes** les entités, et de devoir filtrer les entités portant l'attribut `IndexableEntity`.
-3. Utiliser un [Doctrine Entity Listener](https://symfony.com/doc/current/doctrine/events.html#doctrine-entity-listeners)
-   qui écoutera sur les events `loadClassMetadata`, `postPersist` / `postUpdate` / `preRemove` sur les entités Doctrine.
+1. Use a [CompilerPass](https://symfony.com/doc/current/service_container/compiler_passes.html),
+   but it won't work simply because our entities are not registered in the Symfony Container (and fortunately so).
+2. Use a [Doctrine Lifecycle Listener](https://symfony.com/doc/current/doctrine/events.html#doctrine-lifecycle-listeners).
+   This is a solution I didn't choose because I didn't want to use a listener that would listen to **all** Doctrine events on **all** entities and have to filter entities with the `IndexableEntity` attribute.
+3. Use a [Doctrine Entity Listener](https://symfony.com/doc/current/doctrine/events.html#doctrine-entity-listeners)
+   to listen the `loadClassMetadata`, `postPersist`/`postUpdate`/`preRemove` events on Doctrine entities.
 
-J'ai donc choisi la troisième solution, elle me parait plus propre et plus performante (même si je n'ai pas fait de traces Blackfire),
-mais avec plus de recul, je pense que la deuxième solution aurait été meilleure en termes de maintenabilité et compréhension.
+I chose the 3rd solution, as it seems cleaner and more performant (although I haven't done [Blackfire traces](2023-10-21-blackfire-and-symfony-cli.md)).
+However, with more hindsight, I think the 2nd solution would have been better in terms of maintainability and understanding.
 
-Notre `IndexationListener` ressemble donc à ça :
+So, our `IndexationListener` will looks like this:
 
 ```php
 <?php
@@ -139,7 +133,7 @@ use App\Meilisearch\IndexationHelper;
 use Doctrine\ORM\EntityManagerInterface;
 
 #[AsDoctrineListener(Events::loadClassMetadata)]
-final readonly class IndexationListener
+final class IndexationListener
 {
     /**
      * @var list<class-string>
@@ -189,14 +183,15 @@ final readonly class IndexationListener
 }
 ```
 
-La méthode `IndexationHelper::getAttribute` sera utilisée pour récupérer l'instance de l'attribut `IndexableEntity` depuis l'entité, mais c'est un détail qui ne sera pas abordé dans cet article.
+The method `IndexationHelper::getAttribute` will be used to retrieve the instance of the `IndexableEntity` attribute from the entity, but this detail will not be covered in this article.
 
-### Configurer l'`EntityListenerServiceResolver` de Doctrine
+### Configuring the `EntityListenerServiceResolver` of Doctrine
 
-Dernière étape avec la troisième solution, il faut configurer l'`EntityListenerServiceResolver` de Doctrine,
-afin d'y injecter notre `IndexationListener` présent dans le Container Symfony au lieu de laisser Doctrine s'en charger (car si notre `IndexationListener` dépend de services, ça sera foutu).
+The final step with the 2nd solution is to configure the Doctrine `EntityListenerServiceResolver` to inject
+our `IndexationListener` present in the Symfony Container instead of letting Doctrine handle it
+(because if our `IndexationListener` depends on services, it will be messed up).
 
-Pour cela, on peut créer la CompilerPass Symfony :
+For this, we can create the Symfony CompilerPass:
 
 ```php
 <?php
@@ -210,7 +205,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-final readonly class RegisterIndexationListenerPass implements CompilerPassInterface
+final class RegisterIndexationListenerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
@@ -221,12 +216,11 @@ final readonly class RegisterIndexationListenerPass implements CompilerPassInter
         );
     }
 }
-
 ```
 
-## Utilisation
+## Usage
 
-Grâce à l'utilisation de listeners Doctrine, il n'y a pas de modifications supplémentaires à faire dans le code, les `persist()`, `flush()` et `remove()` fonctionnent comme d'habitude :
+Thanks to the use of Doctrine listeners, there are no additional modifications to be made in the code; `persist()`, `flush()`, and `remove()` work as usual:
 
 ```php
 <?php
@@ -237,19 +231,19 @@ $post = new Post(
 $entityManager->persist($post);
 $entityManager->flush();
 
-// La méthode `IndexationListener::postPersist()` sera appelée
+// The method `IndexationListener::postPersist()` will be called
 ```
 
-## Aller plus loin
+## Going Further
 
-### Migrer vers un Lifecycle Listener Doctrine
+### Migrating to a Doctrine Lifecycle Listener
 
-Comme dit plus haut, c'est la solution que j'aurais dû choisir, car elle est plus simple à comprendre et à maintenir, mais sans doute moins performante.
+As mentioned earlier, this is the solution I should have chosen, as it is simpler to understand and maintain, but probably less performant.
 
-Cela demandera les modifications suivantes :
+This will require the following modifications:
 
-1. Supprimer la `RegisterIndexationListenerPass`
-2. Transformer le `IndexationListener` de cette façon :
+1. Remove the `RegisterIndexationListenerPass`
+2. Transform the `IndexationListener` as follows:
 
 ```php
 <?php
@@ -264,7 +258,7 @@ use Doctrine\ORM\EntityManagerInterface;
 #[AsDoctrineListener(event: Events::postPersist, priority: 500, connection: 'default')]
 #[AsDoctrineListener(event: Events::postUpdate, priority: 500, connection: 'default')]
 #[AsDoctrineListener(event: Events::preRemove, priority: 500, connection: 'default')]
-final readonly class IndexationListener
+final class IndexationListener
 {
     public function postPersist(PostPersistEventArgs $args): void
     {
