@@ -14,7 +14,9 @@ dependencies:
 proficiencyLevel: Beginner
 ---
 
-# Profiling a Symfony-CLI project with Blackfire
+# {{ $frontmatter.title }}
+
+<PostMeta class="mt-2" :date="$frontmatter.date" :tags="$frontmatter.tags" :lang="$frontmatter.lang" />
 
 ::: warning
 In this post, I assume you already have a Symfony project that uses the [Symfony CLI](https://github.com/symfony-cli/symfony-cli).
