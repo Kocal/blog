@@ -100,6 +100,7 @@ export default defineConfig({
   },
   async transformPageData(pageData, context) {
     const url = `https://hugo.alliau.me/${pageData.relativePath.replace(/index\.md$/, '').replace(/\.md$/, '.html')}`;
+    const imageUrl = `https://open-graph-image-generator.kocal.fr/generate?url=${encodeURI(url)}&format=image`;
 
     return {
       frontmatter: {
@@ -119,12 +120,14 @@ export default defineConfig({
                 ['meta', { property: 'og:type', content: 'website' }],
                 ['meta', { property: 'og:title', content: pageData.title }],
                 ['meta', { property: 'og:description', content: pageData.description }],
+                ['meta', { property: 'og:image', content: imageUrl }],
 
                 ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
                 ['meta', { property: 'twitter:domain', content: 'hugo.alliau.me' }],
                 ['meta', { property: 'twitter:url', content: url }],
                 ['meta', { name: 'twitter:title', content: pageData.title }],
                 ['meta', { name: 'twitter:description', content: pageData.description }],
+                ['meta', { property: 'twitter:image', content: imageUrl }],
               ]
             : []),
         ],
