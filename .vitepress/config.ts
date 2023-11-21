@@ -150,6 +150,7 @@ export default defineConfig({
     template: {
       transformAssetUrls: {
         Image: ['src'],
+        source: ['src'],
       },
     },
   },
