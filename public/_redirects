@@ -5,6 +5,7 @@
 /2021/05/04/migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets   /posts/2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets.html
 /2022/01/07/doctrine-setmaxresults-and-collections-associations-are-on-a-boat/                  /posts/2022-01-07-doctrine-setmaxresults-and-collections-associations-are-on-a-boat.html
 /feed.atom                    /rss.xml
+/tag/                         /tags.html
 /tag/aws                      /tags/aws.html
 /tag/aws/                     /tags/aws.html
 /tag/docker                   /tags/docker.html
