@@ -14,6 +14,9 @@
   # Default build command.
   command = "pnpm run build"
 
+[build.processing.html]
+pretty_urls = false
+
 [[plugins]]
   # Installs the Lighthouse Build Plugin for all deploy contexts
   package = "@netlify/plugin-lighthouse"

@@ -26,6 +26,7 @@ export default defineConfig({
   description: 'My Personal Blog',
   lang: 'en',
   srcExclude: ['**/posts-assets', '**/README.md'],
+  cleanUrls: false,
   themeConfig: {
     siteTitle: "Hugo Alliaume's Blog",
     nav: [{ text: 'Tags', link: '/tags' }],
