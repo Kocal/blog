@@ -101,7 +101,7 @@ export default defineConfig({
   },
   async transformPageData(pageData, context) {
     const url = `https://hugo.alliau.me/${pageData.relativePath.replace(/index\.md$/, '').replace(/\.md$/, '.html')}`;
-    const imageUrl = `https://open-graph-image-generator.kocal.fr/generate?url=${encodeURI(url)}&format=image`;
+    const imageUrl = `https://open-graph-image-generator.kocal.fr/image?url=${encodeURI(url)}`;
 
     return {
       frontmatter: {
