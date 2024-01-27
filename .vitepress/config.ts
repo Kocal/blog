@@ -6,11 +6,13 @@ import { getJSONLD } from './theme/json-ld.js';
 import { imagetools } from 'vite-imagetools';
 import { Feed } from 'feed';
 
+const BLOG_URL = 'https://hugo.alliau.me';
+
 const feed = new Feed({
   title: "Hugo Alliaume's Blog",
   description: 'My Personal Blog',
-  id: 'https://hugo.alliau.me/',
-  link: 'https://hugo.alliau.me/',
+  id: BLOG_URL,
+  link: BLOG_URL,
   language: 'en',
   copyright: 'Hugo Alliaume',
   author: {
@@ -92,7 +94,7 @@ export default defineConfig({
 
     if (/^posts/.test(pageData.relativePath)) {
       feed.addItem({
-        link: pageData.relativePath.replace(/\/index\.md$/, '/').replace(/\.md$/, '.html'),
+        link: BLOG_URL + '/' + pageData.relativePath.replace(/\/index\.md$/, '/').replace(/\.md$/, '.html'),
         title: pageData.title,
         description: pageData.description,
         date: new Date(pageData.frontmatter.date),
@@ -100,7 +102,7 @@ export default defineConfig({
     }
   },
   async transformPageData(pageData, context) {
-    const url = `https://hugo.alliau.me/${pageData.relativePath.replace(/index\.md$/, '').replace(/\.md$/, '.html')}`;
+    const url = BLOG_URL + '/' + `${pageData.relativePath.replace(/index\.md$/, '').replace(/\.md$/, '.html')}`;
     const imageUrl = `https://open-graph-image-generator.kocal.fr/image?url=${encodeURI(url)}`;
 
     return {
