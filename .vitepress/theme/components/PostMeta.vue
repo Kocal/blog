@@ -11,7 +11,7 @@ const props = withDefaults(
   }>(),
   {
     lang: 'en',
-  }
+  },
 );
 const { date, lang, tags } = toRefs(props);
 
