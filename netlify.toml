@@ -12,7 +12,7 @@
   publish = ".vitepress/dist"
 
   # Default build command.
-  command = "pnpm run build"
+  command = "bun run build"
 
 [build.processing.html]
 pretty_urls = false
