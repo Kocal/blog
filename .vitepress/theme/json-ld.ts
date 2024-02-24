@@ -32,7 +32,7 @@ export async function getJSONLD(pageData: PageData, context: TransformPageContex
     };
   } else if (pageData.relativePath.startsWith('posts/')) {
     const post = (await loadPosts()).find(
-      (p) => p.title === pageData.frontmatter.title && p.summary === pageData.frontmatter.summary
+      (p) => p.title === pageData.frontmatter.title && p.summary === pageData.frontmatter.summary,
     );
     if (post) {
       jsonLd = {

@@ -7,17 +7,20 @@ import { useData } from 'vitepress';
 
 const { frontmatter, site, params } = useData();
 
-const tags = posts.reduce((acc, post) => {
-  post.tags.forEach((tag) => {
-    if (acc[tag]) {
-      acc[tag] += 1;
-    } else {
-      acc[tag] = 1;
-    }
-  });
+const tags = posts.reduce(
+  (acc, post) => {
+    post.tags.forEach((tag) => {
+      if (acc[tag]) {
+        acc[tag] += 1;
+      } else {
+        acc[tag] = 1;
+      }
+    });
 
-  return acc;
-}, {} as Record<string, number>);
+    return acc;
+  },
+  {} as Record<string, number>,
+);
 
 const tag = computed(() => params.value?.tag);
 
