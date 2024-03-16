@@ -6,7 +6,7 @@ import { getJSONLD } from './theme/json-ld.js';
 import { imagetools } from 'vite-imagetools';
 import { Feed } from 'feed';
 
-const BLOG_URL = 'https://hugo.alliau.me';
+const BLOG_URL = 'https://hugo.alliau.me/blog/';
 
 const feed = new Feed({
   title: "Hugo Alliaume's Blog",
