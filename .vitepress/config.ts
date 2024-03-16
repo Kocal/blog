@@ -28,6 +28,7 @@ export default defineConfig({
   description: 'My Personal Blog',
   lang: 'en',
   srcExclude: ['**/posts-assets', '**/README.md'],
+  base: '/blog/',
   cleanUrls: false,
   themeConfig: {
     siteTitle: "Hugo Alliaume's Blog",
