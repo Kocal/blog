@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prepare": "husky install",
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview",

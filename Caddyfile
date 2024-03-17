@@ -1,5 +1,0 @@
-{$SERVER_NAME:localhost} {
-	root * /srv
-	file_server
-	encode zstd gzip
-}
