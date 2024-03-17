@@ -6,7 +6,7 @@ import { getJSONLD } from './theme/json-ld.js';
 import { imagetools } from 'vite-imagetools';
 import { Feed } from 'feed';
 
-const BLOG_URL = 'https://hugo.alliau.me';
+const BLOG_URL = 'https://blog.hugo.alliau.me';
 
 const feed = new Feed({
   title: "Hugo Alliaume's Blog",
@@ -126,7 +126,7 @@ export default defineConfig({
                 ['meta', { property: 'og:image', content: imageUrl }],
 
                 ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-                ['meta', { property: 'twitter:domain', content: 'hugo.alliau.me' }],
+                ['meta', { property: 'twitter:domain', content: 'blog.hugo.alliau.me' }],
                 ['meta', { property: 'twitter:url', content: url }],
                 ['meta', { name: 'twitter:title', content: pageData.title }],
                 ['meta', { name: 'twitter:description', content: pageData.description }],
@@ -138,7 +138,7 @@ export default defineConfig({
     };
   },
   sitemap: {
-    hostname: 'https://hugo.alliau.me',
+    hostname: 'https://blog.hugo.alliau.me',
     lastmodDateOnly: false,
   },
   async buildEnd({ outDir }) {
