@@ -33,7 +33,7 @@
     "tailwindcss": "^3.3.5",
     "typescript": "^5.3.2",
     "vite-imagetools": "^6.2.4",
-    "vitepress": "1.0.0-rc.30",
+    "vitepress": "^1.0.0-rc.45",
     "vue": "^3.3.8"
   },
   "lint-staged": {
